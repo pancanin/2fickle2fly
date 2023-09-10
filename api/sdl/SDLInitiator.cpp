@@ -2,9 +2,7 @@
 
 #include "SDL.h"
 
-SDLInitiator::SDLInitiator(): video(0)
-{
-}
+SDLInitiator::SDLInitiator(): video(0) {}
 
 SDLInitiator& SDLInitiator::requireVideo()
 {

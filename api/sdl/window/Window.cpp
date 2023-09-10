@@ -1,7 +1,5 @@
 #include "Window.h"
 
-#include <iostream>
-
 #include "SDL_video.h"
 
 int32_t Window::init(const std::string& title, uint32_t w, uint32_t h) {
@@ -11,12 +9,7 @@ int32_t Window::init(const std::string& title, uint32_t w, uint32_t h) {
 		return -1;
 	}
 
-	std::cout << "Window initialised\n";
 	return 0;
-}
-
-void Window::resize(uint32_t w, uint32_t h) const {
-	SDL_SetWindowSize(window, w, h);
 }
 
 Window::Window(): window(nullptr) {}
@@ -26,6 +19,4 @@ Window::~Window() {
 		SDL_DestroyWindow(window);
 		window = nullptr;
 	}
-
-	std::cout << "Window destroyed\n";
 }

@@ -6,14 +6,13 @@
 
 struct SDL_Window;
 
-/**
- * Wrapper around SDL_Window.
- * Manages (de)initialization of window.
- */
+/// <summary>
+/// Wrapper around SDL_Window.
+/// Manages(de)initialization of window.
+/// </summary>
 class Window {
 public:
-	int32_t init(const std::string& title, uint32_t width, uint32_t height);
-	void resize(uint32_t width, uint32_t height) const;
+	int32_t init(const std::string& title, uint32_t w, uint32_t h);
 
 	Window();
 	~Window();
