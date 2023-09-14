@@ -29,22 +29,35 @@ add_executable(${PROJECT_NAME}
 # For visual studio projects, the added include paths are visible in C/C++ -> General -> Additional Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE ${DIR})
 
-# Add static libraries' headers
+# Add static lib headers for linux
+if (UNIX)
 include_directories(
-    ${DIR}/libs/SDL2-2.28.1/include
-    ${DIR}/libs/SDL2_ttf-2.20.2/include
-    ${DIR}/libs/SDL2_mixer-2.6.3/include
-    ${DIR}/libs/SDL2_image-2.6.3/include
+    ${DIR}/libs/linux/SDL/include/SDL2
+)
+
+target_link_libraries(
+    ${PROJECT_NAME} PRIVATE ${DIR}/libs/linux/SDL/lib/libSDL2.a
+)
+endif(UNIX)
+
+# Add static libraries' headers for windows
+if (WIN32)
+include_directories(
+    ${DIR}/libs/win/SDL2-2.28.1/include
+    ${DIR}/libs/win/SDL2_ttf-2.20.2/include
+    ${DIR}/libs/win/SDL2_mixer-2.6.3/include
+    ${DIR}/libs/win/SDL2_image-2.6.3/include
 )
 
 link_directories(
-    ${DIR}/libs/SDL2-2.28.1/lib/x64
-    ${DIR}/libs/SDL2_ttf-2.20.2/lib/x64
-    ${DIR}/libs/SDL2_mixer-2.6.3/lib/x64
-    ${DIR}/libs/SDL2_image-2.6.3/lib/x64
+    ${DIR}/libs/win/SDL2-2.28.1/lib/x64
+    ${DIR}/libs/win/SDL2_ttf-2.20.2/lib/x64
+    ${DIR}/libs/win/SDL2_mixer-2.6.3/lib/x64
+    ${DIR}/libs/win/SDL2_image-2.6.3/lib/x64
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/SDL2-2.28.1/lib/x64/SDL2.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.lib)
 
 # Post build action to move static libraries dll files to executable's folder
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif(WIN32)
