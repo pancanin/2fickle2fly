@@ -63,7 +63,7 @@ include_directories(
     ${DIR}/libs/win/SDL2_image-2.6.3/include
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/SDL2-2.28.1/lib/x64/SDL2.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.lib)
 
 # Post build action to move static libraries dll files to executable's folder
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
