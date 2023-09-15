@@ -14,10 +14,12 @@ class Window {
 public:
 	int32_t init(const std::string& title, uint32_t w, uint32_t h);
 
+	SDL_Window* raw();
+
 	Window();
 	~Window();
 private:
-	SDL_Window* window;
+	SDL_Window* _window;
 };
 
 #endif /* SDL_COMPONENTS_WINDOW_H_ */

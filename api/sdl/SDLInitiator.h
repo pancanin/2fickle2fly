@@ -10,8 +10,10 @@ class SDLInitiator {
 public:
 	SDLInitiator();
 	SDLInitiator& requireVideo();
+	// audio
+	// ...fonts
 
-	int init();
+	int32_t init();
 
 	~SDLInitiator();
 private:

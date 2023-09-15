@@ -23,6 +23,20 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/api/sdl/window/Window.h
     ${DIR}/api/sdl/window/Window.cpp
+
+    ${DIR}/osplatform/Time.h
+    ${DIR}/osplatform/Time.cpp
+
+    ${DIR}/engine/GameEngine.h
+    ${DIR}/engine/GameEngine.cpp
+
+    ${DIR}/engine/drawables/Rect.h
+    ${DIR}/engine/drawables/Rect.cpp
+
+    ${DIR}/engine/drawables/Color.h
+
+    ${DIR}/engine/rendering/Renderer.h
+    ${DIR}/engine/rendering/Renderer.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
@@ -35,13 +49,6 @@ include_directories(
     ${DIR}/libs/SDL2_ttf-2.20.2/include
     ${DIR}/libs/SDL2_mixer-2.6.3/include
     ${DIR}/libs/SDL2_image-2.6.3/include
-)
-
-link_directories(
-    ${DIR}/libs/SDL2-2.28.1/lib/x64
-    ${DIR}/libs/SDL2_ttf-2.20.2/lib/x64
-    ${DIR}/libs/SDL2_mixer-2.6.3/lib/x64
-    ${DIR}/libs/SDL2_image-2.6.3/lib/x64
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/SDL2-2.28.1/lib/x64/SDL2.lib)

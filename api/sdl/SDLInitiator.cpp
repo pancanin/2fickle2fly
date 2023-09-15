@@ -10,7 +10,7 @@ SDLInitiator& SDLInitiator::requireVideo()
   return *this;
 }
 
-int SDLInitiator::init()
+int32_t SDLInitiator::init()
 {
   if (SDL_Init(video) != 0) {
     return -1;
