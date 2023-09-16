@@ -22,21 +22,21 @@ int main() {
 
   Renderer rend;
 
-  if (rend.init(window, Color{255, 0, 0, 255}) != 0) {
+  if (rend.init(window, Color{}) != 0) {
     std::cout << error.getError();
   }
 
   Rect rect(100, 100, 100, 100, Color{ 0, 255, 0, 255 });
 
-  while (true) {
-    rend.clear();
+  rend.clear();
 
-    if (rend.render(rect) != 0) {
-      std::cout << error.getError();
-    }
-    
-    rend.update();
+  if (rend.render(rect) != 0) {
+    std::cout << error.getError();
   }
+    
+  rend.update();
+
+  while (true) {}
 
   return 0;
 }

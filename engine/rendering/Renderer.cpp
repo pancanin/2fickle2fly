@@ -24,7 +24,7 @@ int32_t Renderer::init(Window& window, Color& clearColor)
 int32_t Renderer::render(const Rect& rect) const
 {
   int32_t rdc = SDL_SetRenderDrawColor(_renderer, rect.color.r, rect.color.g, rect.color.b, rect.color.a);
-  if (!rdc) return rdc;
+  if (rdc != 0) return rdc;
   return SDL_RenderFillRectF(_renderer, &rect._rect);
 }
 
@@ -36,7 +36,7 @@ void Renderer::update() const
 int32_t Renderer::clear() const
 {
   int32_t rdc = SDL_SetRenderDrawColor(_renderer, clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-  if (!rdc) return rdc;
+  if (rdc != 0) return rdc;
   return SDL_RenderClear(_renderer);
 }
 
