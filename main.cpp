@@ -6,8 +6,7 @@
 #include "engine/rendering/Renderer.h"
 #include "engine/drawables/Rect.h"
 #include "engine/drawables/Color.h"
-
-#include <Windows.h>
+#include "engine/input/EventEmitter.h"
 
 int main() {
   SDLInitiator sdlInit;
@@ -28,15 +27,22 @@ int main() {
 
   Rect rect(100, 100, 100, 100, Color{ 0, 255, 0, 255 });
 
-  rend.clear();
+  EventEmitter ee;
+  bool quit = false;
 
-  if (rend.render(rect) != 0) {
-    std::cout << error.getError();
+  ee.listen(Key::ESC, [&quit](Event e) { quit = true; });
+
+  while (!quit) {
+    rend.clear();
+
+    ee.poll();
+
+    if (rend.render(rect) != 0) {
+      std::cout << error.getError();
+    }
+
+    rend.update();
   }
-    
-  rend.update();
-
-  while (true) {}
 
   return 0;
 }

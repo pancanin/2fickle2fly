@@ -37,6 +37,9 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/engine/rendering/Renderer.h
     ${DIR}/engine/rendering/Renderer.cpp
+
+    ${DIR}/engine/input/EventEmitter.h
+    ${DIR}/engine/input/EventEmitter.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option

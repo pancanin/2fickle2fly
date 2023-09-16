@@ -5,7 +5,7 @@
 
 #include "engine/drawables/Color.h"
 
-class Rect;
+struct Rect;
 class Window;
 
 struct SDL_Renderer;

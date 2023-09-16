@@ -15,6 +15,7 @@ int32_t SDLInitiator::init()
   if (SDL_Init(video) != 0) {
     return -1;
   }
+  return 0;
 }
 
 SDLInitiator::~SDLInitiator()
