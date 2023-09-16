@@ -27,6 +27,9 @@ add_executable(${PROJECT_NAME}
     ${DIR}/osplatform/Time.h
     ${DIR}/osplatform/Time.cpp
 
+    ${DIR}/osplatform/ThreadUtils.h
+    ${DIR}/osplatform/ThreadUtils.cpp
+
     ${DIR}/engine/GameEngine.h
     ${DIR}/engine/GameEngine.cpp
 
