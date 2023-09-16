@@ -9,7 +9,7 @@ Renderer::Renderer() : _renderer(nullptr), clearColor(Color{})
 {
 }
 
-int32_t Renderer::init(Window& window, Color& clearColor)
+int32_t Renderer::init(Window& window, const Color& clearColor)
 {
   SDL_Renderer* r = SDL_CreateRenderer(window.raw(), -1, SDL_RENDERER_ACCELERATED);
   if (!r) {

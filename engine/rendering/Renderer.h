@@ -15,7 +15,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	int32_t init(Window&, Color& clearColor);
+	int32_t init(Window&, const Color& clearColor);
 	int32_t render(const Rect&) const;
 	void update() const;
 	int32_t clear() const;
