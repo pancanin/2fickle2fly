@@ -4,6 +4,7 @@
 
 #include "api/sdl/window/Window.h"
 #include "engine/drawables/Rect.h"
+#include "engine/drawables/GameObject.h"
 
 Renderer::Renderer() : _renderer(nullptr), clearColor(Color{})
 {
@@ -26,6 +27,11 @@ int32_t Renderer::render(const Rect& rect) const
   int32_t rdc = SDL_SetRenderDrawColor(_renderer, rect.color.r, rect.color.g, rect.color.b, rect.color.a);
   if (rdc != 0) return rdc;
   return SDL_RenderFillRectF(_renderer, &rect._rect);
+}
+
+int32_t Renderer::render(const GameObject& obj) const
+{
+  return render(obj.getRect());
 }
 
 void Renderer::update() const

@@ -6,6 +6,7 @@
 #include "engine/drawables/Color.h"
 
 struct Rect;
+struct GameObject;
 class Window;
 
 struct SDL_Renderer;
@@ -17,6 +18,7 @@ public:
 
 	int32_t init(Window&, const Color& clearColor);
 	int32_t render(const Rect&) const;
+	int32_t render(const GameObject&) const;
 	void update() const;
 	int32_t clear() const;
 private:

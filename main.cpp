@@ -6,6 +6,8 @@
 #include "engine/rendering/Renderer.h"
 #include "engine/drawables/Rect.h"
 #include "engine/drawables/Color.h"
+#include "engine/drawables/GameObject.h"
+#include "engine/math/Vec2.h"
 #include "engine/input/EventEmitter.h"
 
 int main() {
@@ -26,6 +28,7 @@ int main() {
   }
 
   Rect rect(100, 100, 100, 100, Color{ 0, 255, 0, 255 });
+  GameObject obj(rect, .1f, Vec2(1.0f, 0.0f));
 
   EventEmitter ee;
   bool quit = false;
@@ -37,7 +40,9 @@ int main() {
 
     ee.poll();
 
-    if (rend.render(rect) != 0) {
+    obj.moveAlong();
+
+    if (rend.render(obj) != 0) {
       std::cout << error.getError();
     }
 

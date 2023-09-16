@@ -40,6 +40,11 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/engine/input/EventEmitter.h
     ${DIR}/engine/input/EventEmitter.cpp
+
+    ${DIR}/engine/math/Vec2.h
+
+    ${DIR}/engine/drawables/GameObject.h
+    ${DIR}/engine/drawables/GameObject.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
@@ -71,3 +76,21 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/win/SDL2-2.28.1/lib/x6
 # Post build action to move static libraries dll files to executable's folder
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(WIN32)
+
+include(CTest)
+
+# Testing binary
+add_executable(cpp_test
+
+    ${DIR}/engine/math/Vec2.h
+    ${DIR}/tests/Vec2.cpp
+)
+
+target_include_directories(cpp_test PRIVATE ${DIR})
+
+enable_testing()
+
+add_test(
+    NAME cpp_test
+    COMMAND $<TARGET_FILE:cpp_test>
+)
