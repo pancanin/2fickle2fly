@@ -30,15 +30,19 @@ int main() {
   }
 
   Rect rect(100, 100, 100, 100, Color{ 0, 255, 0, 255 });
-  GameObject obj(rect, .01f, Vec2(1.0f, 0.0f));
+  GameObject obj(rect, 0, Vec2(0.0f, 0.0f));
 
   EventEmitter ee;
   bool quit = false;
 
   ee.listen(Key::ESC, [&quit](Event e) { quit = true; });
+  ee.listen(Key::UP, [&obj](Event e) { obj.setSpeed(0.1f); obj.steer(Vec2(0.0f, 1.0f)); });
+  ee.listen(Key::DOWN, [&obj](Event e) { obj.setSpeed(0.1f); obj.steer(Vec2(0.0f, -1.0f)); });
+  ee.listen(Key::LEFT, [&obj](Event e) { obj.setSpeed(0.1f); obj.steer(Vec2(-1.0f, 0.0f)); });
+  ee.listen(Key::RIGHT, [&obj](Event e) { obj.setSpeed(0.1f); obj.steer(Vec2(1.0f, 0.0f)); });
 
   Time timer;
-  float targetFrameRate = 30;
+  float targetFrameRate = 20;
   float frameDurationMs = 1000 / targetFrameRate;
 
   while (!quit) {
@@ -47,7 +51,7 @@ int main() {
 
     ee.poll();
 
-    obj.moveAlong();
+    obj.updatePosition();
 
     if (rend.render(obj) != 0) {
       std::cout << error.getError();

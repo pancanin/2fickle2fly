@@ -3,18 +3,21 @@
 
 #include "engine/drawables/Rect.h"
 #include "engine/math/Vec2.h"
+#include "engine/math/Direction.h"
 
 struct GameObject {
-	GameObject(const Rect&, float speed, Vec2 dir);
+	GameObject(const Rect&, float speed, Vec2 direction);
 	GameObject(const Rect&);
 
 	Rect getRect() const;
 
-	void moveAlong();
+	void updatePosition();
+	void setSpeed(float);
+	void steer(const Vec2& newDir);
 private:
 	Rect rect;
 	float speed; // pixels per second
-	Vec2 dir;
+	Direction direction;
 };
 
 #endif // !ENGINE_DRAWABLES_GAMEOBJECT_H

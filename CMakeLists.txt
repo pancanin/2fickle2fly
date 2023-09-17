@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5.1)
 
 # Project name and setting language (C or C++)
-project(2fickle2fly LANGUAGES CXX)
+project(shred2d LANGUAGES CXX)
 
 # Compile with the C++ 17 standard
 set(CMAKE_CXX_STANDARD 17)
@@ -45,6 +45,7 @@ add_executable(${PROJECT_NAME}
     ${DIR}/engine/input/EventEmitter.cpp
 
     ${DIR}/engine/math/Vec2.h
+    ${DIR}/engine/math/Direction.h
 
     ${DIR}/engine/drawables/GameObject.h
     ${DIR}/engine/drawables/GameObject.cpp
