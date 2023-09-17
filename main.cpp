@@ -11,6 +11,8 @@
 #include "engine/input/EventEmitter.h"
 #include "osplatform/ThreadUtils.h"
 #include "osplatform/Time.h"
+#include "engine/storage/PrimitivesStorage.h"
+#include "engine/misc/ForwardIdGenerator.h"
 
 int main() {
   SDLInitiator sdlInit;
@@ -29,8 +31,17 @@ int main() {
     std::cout << error.getError();
   }
 
-  Rect rect(100, 100, 100, 100, Color{ 0, 255, 0, 255 });
-  GameObject obj(rect, 0, Vec2(0.0f, 0.0f));
+  PrimitivesStorage<GameObject> objects;
+  objects.init(30);
+
+  ForwardIdGenerator idGen;
+  GameObject objTmp = GameObjectFactory::create(Vec2(100, 100), 100, 100, Color{ 0, 255, 0, 255 });
+  objTmp.setId(idGen.next());
+  GameObject& obj = objects.add(objTmp);
+
+  GameObject obj2Temp = GameObjectFactory::create(Vec2(100, 100), 100, 100, Color{ 255, 0, 0, 255 });
+  obj2Temp.setId(idGen.next());
+  GameObject& obj2 = objects.add(obj2Temp);
 
   EventEmitter ee;
   bool quit = false;
@@ -53,8 +64,10 @@ int main() {
 
     obj.updatePosition();
 
-    if (rend.render(obj) != 0) {
-      std::cout << error.getError();
+    for (auto& o : objects.elements()) {
+      if (rend.render(o) != 0) {
+        std::cout << error.getError();
+      }
     }
 
     rend.update();

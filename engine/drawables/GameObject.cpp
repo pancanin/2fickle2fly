@@ -8,6 +8,16 @@ GameObject::GameObject(const Rect& r) : GameObject(r, 0.0f, Vec2{})
 {
 }
 
+ID GameObject::getId() const
+{
+	return id;
+}
+
+void GameObject::setId(ID id)
+{
+	this->id = id;
+}
+
 Rect GameObject::getRect() const
 {
 	return rect;

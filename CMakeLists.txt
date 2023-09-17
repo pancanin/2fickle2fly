@@ -49,6 +49,11 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/engine/drawables/GameObject.h
     ${DIR}/engine/drawables/GameObject.cpp
+
+    ${DIR}/engine/storage/PrimitivesStorage.h
+    
+    ${DIR}/engine/misc/ForwardIdGenerator.h
+    ${DIR}/engine/misc/ID.h
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
