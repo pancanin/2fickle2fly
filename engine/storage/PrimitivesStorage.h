@@ -19,7 +19,7 @@ public:
 
 	T& get(ID id) {
 		for (int32_t i = 0; i < data.size(); i++) {
-			if (data[i].id == id) {
+			if (data[i].getId() == id) {
 				return data[i];
 			}
 		}
@@ -27,7 +27,7 @@ public:
 
 	void remove(ID id) {
 		for (auto it = data.begin(); it != data.end();) {
-			if (it->id == id) {
+			if (it->getId() == id) {
 				it = data.erase(it);
 			}
 			else {

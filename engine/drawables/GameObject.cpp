@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const Rect& r, float v, Vec2 d): rect(r), speed(v), direction(d)
+GameObject::GameObject(const Rect& r, float v, Vec2 d): id(0), rect(r), speed(v), direction(d)
 {
 }
 
