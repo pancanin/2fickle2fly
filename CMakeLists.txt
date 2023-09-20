@@ -54,6 +54,9 @@ add_executable(${PROJECT_NAME}
     
     ${DIR}/engine/misc/ForwardIdGenerator.h
     ${DIR}/engine/misc/ID.h
+
+    ${DIR}/engine/physics/collisions/BoundingBox.h
+    ${DIR}/engine/physics/collisions/BoundingBox.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
@@ -86,20 +89,29 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/win/SDL2-2.28.1/lib/x6
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(WIN32)
 
-include(CTest)
-
 # Testing binary
-add_executable(cpp_test
-
-    ${DIR}/engine/math/Vec2.h
-    ${DIR}/tests/Vec2.cpp
+include(FetchContent)
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
-
-target_include_directories(cpp_test PRIVATE ${DIR})
+# For Windows: Prevent overriding the parent project's compiler/linker settings
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_test(
-    NAME cpp_test
-    COMMAND $<TARGET_FILE:cpp_test>
+add_executable(tests
+    ${DIR}/tests/Vec2_test.cpp
+    ${DIR}/engine/physics/collisions/BoundingBox.cpp
+    ${DIR}/tests/BoundingBox_test.cpp
 )
+
+target_include_directories(tests PRIVATE ${DIR})
+
+target_link_libraries(
+  tests
+  GTest::gtest_main
+)
+include(GoogleTest)
+gtest_discover_tests(tests)
