@@ -20,7 +20,7 @@ struct CollisionData {
 class CollisionDetector {
 public:
 	/// <summary>
-	/// Does not stop after the first detected collision and therefore returns a vector of collisions for the current frame.
+	/// Does not stop after the first detected collision and so returns a vector of collisions for the current frame.
 	/// This will allow for resolving multiple concurrent collision events.
 	/// </summary>
 	std::vector<CollisionData> checkCollisions(const std::vector<GameObject>&) const;

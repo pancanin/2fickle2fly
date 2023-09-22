@@ -17,7 +17,7 @@ public:
 	/// They should be thin enough, as not to be larger than the rectangle itself.
 	/// Note: Does not work well with really small/thin rectangles.
 	/// </summary>
-	std::vector<BoundingBox> segmentize(const Rect& r) const;
+	std::vector<BoundingBox> segment(const Rect& r) const;
 private:
 	/// <summary>
 	/// For the segments created for the purposes of collision detection, and more specifically, for the purpose of checking
