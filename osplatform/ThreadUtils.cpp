@@ -8,11 +8,10 @@
 #include <thread>
 #endif
 
-void ThreadUtils::sleepFor(int64_t microseconds) {
+void ThreadUtils::sleepFor(int64_t milliseconds) {
 #ifdef _WIN32
-	const DWORD milliseconds = static_cast<DWORD>(microseconds / 1000);
-	Sleep(milliseconds); //sleep uses milliseconds
+	Sleep(milliseconds);
 #else
-    std::this_thread::sleep_for(std::chrono::microseconds(microseconds));
+    std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 #endif
 }

@@ -64,6 +64,9 @@ add_executable(${PROJECT_NAME}
     ${DIR}/engine/physics/collisions/Segmenter.cpp
     ${DIR}/engine/physics/collisions/CollisionAggregator.h
     ${DIR}/engine/physics/collisions/CollisionAggregator.cpp
+
+    ${DIR}/games/breakout/Breakout.h
+    ${DIR}/games/breakout/Breakout.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option

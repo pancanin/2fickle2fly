@@ -16,6 +16,11 @@ struct GameObject {
 	Rect getRect() const;
 
 	void updatePosition();
+
+	/// <summary>
+	/// Speed in pixels per frame.
+	/// We might need something more real-world later on.
+	/// </summary>
 	void setSpeed(float);
 	void steer(const Vec2& newDir);
 //private:
