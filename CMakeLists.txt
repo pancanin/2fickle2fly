@@ -113,6 +113,8 @@ add_executable(tests
     ${DIR}/tests/BoundingBox_test.cpp
     ${DIR}/engine/physics/collisions/Segmenter.cpp
     ${DIR}/tests/Segmenter_test.cpp
+    ${DIR}/engine/physics/collisions/CollisionDetector.cpp
+    ${DIR}/tests/CollisionDetector_test.cpp
 )
 
 target_include_directories(tests PRIVATE ${DIR})

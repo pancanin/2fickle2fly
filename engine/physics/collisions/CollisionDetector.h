@@ -20,10 +20,16 @@ struct CollisionData {
 class CollisionDetector {
 public:
 	/// <summary>
+	/// Returns information about collisions between segments.
 	/// Does not stop after the first detected collision and so returns a vector of collisions for the current frame.
 	/// This will allow for resolving multiple concurrent collision events.
 	/// </summary>
 	std::vector<CollisionData> checkCollisions(const std::vector<GameObject>&) const;
+
+	// Thoughts:
+	// No matter what strategy I use for the segments, there always will be multiple colliding segments.
+	// I should research ways to do this without segments but with code and rects, but that can be even harder.
+	// So, there should be a way to compact multiple collisions between the same objects and have a smooth normal of the collision.
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISION_DETECTOR_H
