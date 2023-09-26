@@ -18,7 +18,7 @@ struct GameObject {
 	void updatePosition();
 	void setSpeed(float);
 	void steer(const Vec2& newDir);
-private:
+//private:
 	ID id;
 	Rect rect;
 	float speed; // pixels per second

@@ -13,6 +13,10 @@
 #include "osplatform/Time.h"
 #include "engine/storage/PrimitivesStorage.h"
 #include "engine/misc/ForwardIdGenerator.h"
+#include "engine/physics/collisions/CollisionData.h"
+#include "engine/physics/collisions/CollisionDetector.h"
+#include "engine/physics/collisions/CollisionAggregator.h"
+#include "engine/physics/collisions/Segmenter.h"
 
 int main() {
   SDLInitiator sdlInit;
@@ -39,7 +43,7 @@ int main() {
   objTmp.setId(idGen.next());
   GameObject& obj = objects.add(objTmp);
 
-  GameObject obj2Temp = GameObjectFactory::create(Vec2(100, 100), 100, 100, Color{ 255, 0, 0, 255 });
+  GameObject obj2Temp = GameObjectFactory::create(Vec2(100, 100), 100, 100, Color{ 0, 255, 0, 255 });
   obj2Temp.setId(idGen.next());
   GameObject& obj2 = objects.add(obj2Temp);
 
@@ -56,11 +60,23 @@ int main() {
   float targetFrameRate = 20;
   float frameDurationMs = 1000 / targetFrameRate;
 
+  Segmenter seg(5);
+  CollisionDetector detector(seg);
+  CollisionAggregator aggre;
+
   while (!quit) {
     timer.getElapsed();
     rend.clear();
-
     ee.poll();
+
+    CollisionData collision = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
+
+    if (collision.hasCollision) {
+      obj2.rect.color = Color{ 255, 0, 0, 255 };
+    }
+    else {
+      obj2.rect.color = Color{ 0, 255, 0, 255 };
+    }
 
     obj.updatePosition();
 
