@@ -115,6 +115,7 @@ add_executable(tests
     ${DIR}/tests/Segmenter_test.cpp
     ${DIR}/engine/physics/collisions/CollisionDetector.cpp
     ${DIR}/tests/CollisionDetector_test.cpp
+    ${DIR}/engine/drawables/GameObject.cpp
 )
 
 target_include_directories(tests PRIVATE ${DIR})

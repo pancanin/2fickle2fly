@@ -9,6 +9,11 @@
 
 struct Rect;
 
+/// <summary>
+/// Shapes are constructed from segments. This allows for resolving the normal at the collision location.
+/// For example, a rectangle is constructed out of 4 segments, one for each side.
+/// When a collision occurs, the colliding segments can be found and their normal will be known.
+/// </summary>
 struct Segment {
 	BoundingBox bb;
 	Vec2 N;
@@ -32,7 +37,7 @@ private:
 	/// For horizontal segments this value will represent the height of the segment.
 	/// For vertical, this value is the width of a segment.
 	/// </summary>
-	uint32_t segmentThickness = 5;
+	uint32_t segmentThickness;
 };
 
 #endif // !ENGINE_COLLISIONS_SEGMENTER_H
