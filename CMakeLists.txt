@@ -57,12 +57,13 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/engine/physics/collisions/BoundingBox.h
     ${DIR}/engine/physics/collisions/BoundingBox.cpp
-
+    ${DIR}/engine/physics/collisions/CollisionData.h
     ${DIR}/engine/physics/collisions/CollisionDetector.h
     ${DIR}/engine/physics/collisions/CollisionDetector.cpp
-
     ${DIR}/engine/physics/collisions/Segmenter.h
     ${DIR}/engine/physics/collisions/Segmenter.cpp
+    ${DIR}/engine/physics/collisions/CollisionAggregator.h
+    ${DIR}/engine/physics/collisions/CollisionAggregator.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
@@ -116,6 +117,8 @@ add_executable(tests
     ${DIR}/engine/physics/collisions/CollisionDetector.cpp
     ${DIR}/tests/CollisionDetector_test.cpp
     ${DIR}/engine/drawables/GameObject.cpp
+    ${DIR}/engine/physics/collisions/CollisionAggregator.cpp
+    ${DIR}/tests/CollisionAggregator_test.cpp
 )
 
 target_include_directories(tests PRIVATE ${DIR})

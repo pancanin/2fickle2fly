@@ -2,6 +2,7 @@
 #define ENGINE_MATH_VEC2_H
 
 #include <cstdint>
+#include <math.h>
 
 class Vec2 {
 public:
@@ -14,6 +15,17 @@ public:
 
 	const Vec2 operator*(float s) const {
 		return Vec2(x * s, y * s);
+	}
+
+	/// <summary>
+	/// Returns a copy of the current instance, but normalized.
+	/// </summary>
+	Vec2 normalized() const {
+		return *this * (1 / length());
+	}
+
+	float length() const {
+		return sqrtf(x * x + y * y);
 	}
 
 	float x;
