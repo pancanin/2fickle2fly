@@ -31,6 +31,8 @@ public:
 	/// The results will be ordered with the collisions of the GameObjects in the beginning of the collection first.
 	/// So it is expected that in CollisionData, element with 'o1Id' will always be to the left of element with o2Id.
 	/// The segments will be compared in the order which comes from Segmenter.
+	/// 
+	/// Big Note: Does not handle nested objects
 	/// </summary>
 	std::vector<CollisionData> checkCollisions(const std::vector<GameObject>&) const;
 
