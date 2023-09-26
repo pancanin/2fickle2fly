@@ -7,7 +7,9 @@
 int main() {
   SDLError error;
   Breakout breakout;
-  if (breakout.init() != 0) {
+
+  // The resolution has to be specific for a game, so maybe have a way to set it to the engine from within Breakout class.
+  if (breakout.init(640, 480) != 0) {
     std::cout << error.getError();
     return 1;
   }

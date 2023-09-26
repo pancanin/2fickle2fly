@@ -13,7 +13,13 @@ private:
 	void onUpdate() override;
 	void handleCollision(const CollisionData&) override;
 
-	GameObject* paddle;
+	void buildSideWalls();
+
+	GameObject* paddle = nullptr;
+	GameObject* obstacle = nullptr;
+	float padding = 2.0f;
+	float brickWidth = 32.0f;
+	float brickHeight = 16.0f;
 };
 
 #endif // !GAMES_BREAKOUT

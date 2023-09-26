@@ -8,22 +8,26 @@
 #include "engine/physics/collisions/CollisionAggregator.h"
 #include "engine/physics/collisions/Segmenter.h"
 
-GameEngine::GameEngine(): stop(false), frameDurationMs(1000 / 30)
+GameEngine::GameEngine(): stop(false), frameDurationMs(1000 / 30), width(0), height(0)
 {
 }
 
-int32_t GameEngine::init()
+int32_t GameEngine::init(uint32_t w, uint32_t h)
 {
 	if (sdlInit.requireVideo().init() != 0) {
 		return -1;
 	}
-	if (window.init("Test", 640, 480) != 0) { // TODO: These should be parameters
+	if (window.init("Test", w, h) != 0) { // TODO: These should be parameters
 		return -1;
 	}
 	if (rend.init(window, Color{}) != 0) {
 		return -1;
 	}
 
+	this->width = w;
+	this->height = h;
+
+	// This has to be done based on the game...So the game should call such allocations.
 	objects.init(30);
 
 	ee.listen(Key::ESC, [this](Event e) { stop = true; });
@@ -73,6 +77,16 @@ GameObject* GameEngine::add(const GameObject& obj)
 	GameObject temp = obj;
 	temp.setId(idGen.next());
 	return &objects.add(obj);
+}
+
+uint32_t GameEngine::getWindowWidth() const
+{
+	return width;
+}
+
+uint32_t GameEngine::getWindowHeight() const
+{
+	return height;
 }
 
 void GameEngine::setTargetFrameRate(uint32_t frameRate)

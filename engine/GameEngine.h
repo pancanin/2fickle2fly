@@ -18,7 +18,7 @@ public:
   GameEngine();
 	virtual ~GameEngine() = default;
 
-	int32_t init();
+	int32_t init(uint32_t w, uint32_t h);
 	void start();
 	void setTargetFrameRate(uint32_t frameRate);
 protected:
@@ -26,6 +26,9 @@ protected:
 	/// The returned pointer is already managed - do not free it!
 	/// </summary>
 	GameObject* add(const GameObject&);
+
+	uint32_t getWindowWidth() const;
+	uint32_t getWindowHeight() const;
 
 	virtual void onStart() = 0;
 	virtual void setKeyBindings(EventEmitter&) = 0;
@@ -41,6 +44,8 @@ private:
 	SDLError error;
 	bool stop;
 	uint32_t frameDurationMs;
+	uint32_t width;
+	uint32_t height;
 };
 
 #endif /* ENGINEV2_GAMEENGINE_H_ */
