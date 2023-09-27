@@ -15,6 +15,16 @@ struct CollisionData {
 	Vec2 o1N; /// Normal of the 'first' object.
 	Vec2 o2N; /// Normal of the 'second' object.
 	bool hasCollision;
+
+	/// <summary>
+	/// Checks whether the current collision involves an object with the provided id.
+	/// If it does, it returns a new instance, so that the queried object's normal and id are set to o1Id and o1N.
+	/// The other collided object is set to o2Id and o2N.
+	/// This helps look for objects which we want to manipulate and extract their collision data.
+	/// </summary>
+	/// <param name="id">The id of the object which we want to check for collisions.</param>
+	/// <returns>A new CollisionData instance with the, potentially, swapped fields or an 'empty' CollisionData object when there are no collisions with this object.</returns>
+	CollisionData query(ID id);
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISION_DATA

@@ -20,6 +20,7 @@ private:
 	void buildSideWalls();
 
 	ID paddleId = -1;
+	ID ballId = -1;
 	uint32_t padding = 2;
 	uint32_t brickWidth = 32;
 	uint32_t brickHeight = 16;

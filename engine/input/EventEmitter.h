@@ -14,6 +14,7 @@ enum class Key {
 	DOWN = 1073741905, //SDLK_DOWN
 	LEFT = 1073741904, //SDLK_LEFT
 	RIGHT = 1073741903, //SDLF_RIGHT
+	SPACE = 32, //SDLK_SPACE
 };
 
 struct KeyBinding {
