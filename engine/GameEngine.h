@@ -2,6 +2,7 @@
 #define ENGINEV2_GAMEENGINE_H_
 
 #include <cstdint>
+#include <string>
 
 #include "api/sdl/SDLInitiator.h"
 #include "engine/rendering/Renderer.h"
@@ -15,17 +16,20 @@
 
 class GameEngine {
 public:
-  GameEngine();
+	GameEngine(uint32_t w, uint32_t h, uint32_t frameRate);
 	virtual ~GameEngine() = default;
 
-	int32_t init(uint32_t w, uint32_t h);
+	int32_t init(const std::string& windowLabel);
 	void start();
-	void setTargetFrameRate(uint32_t frameRate);
 protected:
+	
 	/// <summary>
-	/// The returned pointer is already managed - do not free it!
+	/// Adds a GameObject to storage and assigns it an ID.
+	/// 
 	/// </summary>
-	GameObject* add(const GameObject&);
+	/// <param name="obj">Temporary GameObject used for initialising the 'permanent' GameObject that will 'live' in storage.</param>
+	/// <returns>The id of the added object. This id can be used for retrieving the object.</returns>
+	ID add(const GameObject& obj);
 
 	uint32_t getWindowWidth() const;
 	uint32_t getWindowHeight() const;
@@ -34,10 +38,12 @@ protected:
 	virtual void setKeyBindings(EventEmitter&) = 0;
 	virtual void onUpdate() = 0;
 	virtual void handleCollision(const CollisionData&) = 0;
+
+	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.
+	PrimitivesStorage<GameObject> objects;
 private:
 	EventEmitter ee;
 	SDLInitiator sdlInit;
-	PrimitivesStorage<GameObject> objects;
 	Window window;
 	Renderer rend;
 	ForwardIdGenerator idGen;

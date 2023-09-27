@@ -9,8 +9,8 @@
 
 TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingSide) {
 
-	GameObject o1 = GameObjectFactory::create(Vec2(20, -10), 5, 10, Color{});
-	GameObject o2 = GameObjectFactory::create(Vec2(10, -18), 20, 10, Color{});
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(20, -10), 5, 10, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(10, -18), 20, 10, Color{});
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
@@ -50,8 +50,8 @@ TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingSide) {
 
 TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingCorners) {
 
-	GameObject o1 = GameObjectFactory::create(Vec2(0, 0), 20, 10, Color{});
-	GameObject o2 = GameObjectFactory::create(Vec2(18, -8), 20, 10, Color{});
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 20, 10, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(18, -8), 20, 10, Color{});
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };

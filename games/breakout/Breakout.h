@@ -3,10 +3,14 @@
 
 #include "engine/GameEngine.h"
 
+#include "engine/misc/ID.h"
+
 class EventEmitter;
 struct GameObject;
 
 class Breakout : public GameEngine {
+public:
+	Breakout() : GameEngine(640, 480, 30) {}
 private:
 	void onStart() override;
 	void setKeyBindings(EventEmitter&) override;
@@ -15,11 +19,10 @@ private:
 
 	void buildSideWalls();
 
-	GameObject* paddle = nullptr;
-	GameObject* obstacle = nullptr;
-	float padding = 2.0f;
-	float brickWidth = 32.0f;
-	float brickHeight = 16.0f;
+	ID paddleId = -1;
+	uint32_t padding = 2;
+	uint32_t brickWidth = 32;
+	uint32_t brickHeight = 16;
 };
 
 #endif // !GAMES_BREAKOUT

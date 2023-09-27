@@ -8,28 +8,21 @@
 #include "engine/physics/collisions/CollisionAggregator.h"
 #include "engine/physics/collisions/Segmenter.h"
 
-GameEngine::GameEngine(): stop(false), frameDurationMs(1000 / 30), width(0), height(0)
+#define MILLIS_IN_SECOND 1000
+
+GameEngine::GameEngine(uint32_t w, uint32_t h, uint32_t frameRate):
+	stop(false), width(w), height(h), frameDurationMs(MILLIS_IN_SECOND / frameRate)
 {
 }
 
-int32_t GameEngine::init(uint32_t w, uint32_t h)
+int32_t GameEngine::init(const std::string& windowLabel)
 {
-	if (sdlInit.requireVideo().init() != 0) {
-		return -1;
-	}
-	if (window.init("Test", w, h) != 0) { // TODO: These should be parameters
-		return -1;
-	}
-	if (rend.init(window, Color{}) != 0) {
+	if (sdlInit.requireVideo().init() != 0 || window.init(windowLabel, width, height) != 0 ||
+			rend.init(window, Color{}) != 0) {
 		return -1;
 	}
 
-	this->width = w;
-	this->height = h;
-
-	// This has to be done based on the game...So the game should call such allocations.
-	objects.init(30);
-
+	// Setup some common key-bindings for every game.
 	ee.listen(Key::ESC, [this](Event e) { stop = true; });
 
 	return 0;
@@ -72,11 +65,12 @@ void GameEngine::start() {
 	}
 }
 
-GameObject* GameEngine::add(const GameObject& obj)
+ID GameEngine::add(const GameObject& obj)
 {
 	GameObject temp = obj;
 	temp.setId(idGen.next());
-	return &objects.add(obj);
+	objects.add(temp);
+	return temp.getId();
 }
 
 uint32_t GameEngine::getWindowWidth() const
@@ -87,9 +81,4 @@ uint32_t GameEngine::getWindowWidth() const
 uint32_t GameEngine::getWindowHeight() const
 {
 	return height;
-}
-
-void GameEngine::setTargetFrameRate(uint32_t frameRate)
-{
-	this->frameDurationMs = 1000 / frameRate;
 }

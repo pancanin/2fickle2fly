@@ -31,8 +31,12 @@ struct GameObject {
 };
 
 struct GameObjectFactory {
-	static GameObject create(const Vec2& pos, float w, float h, const Color& color) {
-		return GameObject(Rect(pos.x, pos.y, w, h, color), 0.0f, Vec2());
+	static GameObject createImmovableObject(const Vec2& pos, float w, float h, const Color& color) {
+		return createObject(pos, w, h, color, 0.0f);
+	}
+
+	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed) {
+		return GameObject(Rect(pos.x, pos.y, w, h, color), speed, Vec2());
 	}
 };
 
