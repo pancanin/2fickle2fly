@@ -31,6 +31,13 @@ void GameObject::updatePosition()
 	rect._rect.y = newPos.y;
 }
 
+Rect GameObject::toWorldSpace() const
+{
+	Rect r = rect;
+	r._rect.y = -r._rect.y;
+	return r;
+}
+
 void GameObject::setSpeed(float v)
 {
 	this->speed = v;

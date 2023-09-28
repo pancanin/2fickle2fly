@@ -22,6 +22,7 @@ struct Segment {
 class Segmenter {
 public:
 	Segmenter(uint32_t segmentThickness) : segmentThickness(segmentThickness) {}
+
 	/// <summary>
 	/// Returns 4 bounding boxes, 1 for each side of the rectangle.
 	/// The order is the following: top, right, bottom, left segment.
@@ -29,7 +30,9 @@ public:
 	/// They should be thin enough, as not to be larger than the rectangle itself.
 	/// Note: Does not work well with really small/thin rectangles.
 	/// </summary>
-	std::vector<Segment> segment(const Rect& r) const; // TODO: Change this to a Segment structure with BoundingBox + normal
+	/// <param name="r">Should be in world space (y negated)</param>
+	/// <returns>Segments of the rectangle</returns>
+	std::vector<Segment> segment(const Rect& r) const;
 private:
 	/// <summary>
 	/// For the segments created for the purposes of collision detection, and more specifically, for the purpose of checking

@@ -44,3 +44,10 @@ TEST(BoundingBoxTest, Neighbouring) {
   ASSERT_FALSE(b.intersects(a));
 }
 
+TEST(BoundingBoxTest, TestN1) {
+  BoundingBox a(Vec2(0.0, 10.0), Vec2(20.0, 7.0));
+  BoundingBox b(Vec2(18.0, 11.0), Vec2(38.0, 8.0));
+  ASSERT_FALSE(a.intersects(b));
+  ASSERT_FALSE(b.intersects(a));
+}
+

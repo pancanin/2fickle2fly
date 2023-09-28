@@ -32,7 +32,7 @@ void GameEngine::start() {
   onStart();
 	setKeyBindings(ee);
 	Time stopwatch;
-	Segmenter seg(2);
+	Segmenter seg(3); // the segment size is dependent on the speed of an object, so maybe this needs change.
 	CollisionDetector detector(seg);
 	CollisionAggregator aggre;
 
@@ -62,7 +62,7 @@ void GameEngine::start() {
 		Time& clockedTime = stopwatch.getElapsed();
 		int64_t timeLeftInFrame = frameDurationMs - clockedTime.toMilliseconds();
 #if !NDEBUG
-		// If we are debugging, the time left would be negative, because we paused on breakpoints.
+		// If we are debugging, the time left would be negative, because we paused on breakpoints for too long.
 		// Set some constant sleep time for these cases.
 #define SLEEP_TIME_IN_DEBUG 100
 		if (timeLeftInFrame < 0) {

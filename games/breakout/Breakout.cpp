@@ -18,7 +18,7 @@ void Breakout::onStart()
 
   auto ballDim = 16;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 5.0f));
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
 
   buildSideWalls();
 }
