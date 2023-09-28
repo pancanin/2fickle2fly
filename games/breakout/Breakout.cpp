@@ -1,5 +1,7 @@
 #include "Breakout.h"
 
+#include <iostream>
+
 #include "engine/math/Vec2.h"
 #include "engine/drawables/GameObject.h"
 #include "engine/input/EventEmitter.h"
@@ -38,7 +40,10 @@ void Breakout::onUpdate()
 
 void Breakout::handleCollision(const CollisionData& collision)
 {
-  
+  if (collision.query(ballId).hasCollision) {
+    GameObject& ball = objects.get(ballId);
+    ball.steer(ball.direction.getWorldSpace().reflect(collision.o2N));
+  }
 }
 
 void Breakout::buildSideWalls()

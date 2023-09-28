@@ -26,7 +26,7 @@ Rect GameObject::getRect() const
 void GameObject::updatePosition()
 {
 	Vec2 currentPos(rect._rect.x, rect._rect.y);
-	Vec2 newPos = currentPos + (direction.get() * speed);
+	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
 	rect._rect.x = newPos.x;
 	rect._rect.y = newPos.y;
 }

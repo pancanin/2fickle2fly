@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "engine/math/Vec2.h"
+#include "engine/drawables/GameObject.h"
 
 // Demonstrate some basic assertions.
 TEST(Vec2Test, BasicAdd) {
@@ -27,3 +28,33 @@ TEST(Vec2Test, MultiplyBasic) {
   ASSERT_EQ(b.x, 4.0);
   ASSERT_EQ(b.y, 6.0);
 }
+
+TEST(Vec2Test, ReflectBasic1) {
+  Vec2 a(1.0, 1.0);
+  Vec2 b = a.reflect(Vec2(0, -1));
+  ASSERT_EQ(b.x, 1.0);
+  ASSERT_EQ(b.y, -1.0);
+}
+
+TEST(Vec2Test, ReflectBasic2) {
+  Vec2 a(1.0, 1.0);
+  Vec2 b = a.reflect(Vec2(-1, 0));
+  ASSERT_EQ(b.x, -1.0);
+  ASSERT_EQ(b.y, 1.0);
+}
+
+TEST(Vec2Test, ReflectVertical) {
+  Vec2 a(0, 1);
+  Vec2 b = a.reflect(Vec2(0, -1));
+  ASSERT_EQ(b.x, 0.0);
+  ASSERT_EQ(b.y, -1.0);
+}
+
+TEST(Vec2Test, ReflectGameObject) {
+  GameObject obj = GameObjectFactory::createObject(Vec2(), 10, 20, Color{}, 4.5);
+  obj.steer(Vec2(0, 1));
+  Vec2 b = obj.direction.getWorldSpace().reflect(Vec2(0, -1));
+  ASSERT_EQ(b.x, 0.0);
+  ASSERT_EQ(b.y, -1.0);
+}
+

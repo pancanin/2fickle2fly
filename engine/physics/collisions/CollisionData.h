@@ -24,7 +24,7 @@ struct CollisionData {
 	/// </summary>
 	/// <param name="id">The id of the object which we want to check for collisions.</param>
 	/// <returns>A new CollisionData instance with the, potentially, swapped fields or an 'empty' CollisionData object when there are no collisions with this object.</returns>
-	CollisionData query(ID id);
+	CollisionData query(ID id) const;
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISION_DATA

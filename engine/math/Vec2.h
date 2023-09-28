@@ -28,6 +28,18 @@ public:
 		return sqrtf(x * x + y * y);
 	}
 
+	float dot(const Vec2& v) const {
+		return this->x * v.x + this->y * v.y;
+	}
+
+	Vec2 operator-() const {
+		return Vec2(-this->x, -this->y);
+	}
+
+	Vec2 reflect(const Vec2& normal) const {
+		return *this + -(normal * (this->dot(normal) * 2));
+	}
+
 	float x;
 	float y;
 };

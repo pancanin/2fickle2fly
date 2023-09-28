@@ -32,7 +32,7 @@ void GameEngine::start() {
   onStart();
 	setKeyBindings(ee);
 	Time stopwatch;
-	Segmenter seg(5);
+	Segmenter seg(2);
 	CollisionDetector detector(seg);
 	CollisionAggregator aggre;
 
@@ -61,6 +61,15 @@ void GameEngine::start() {
 		// Frame rate control
 		Time& clockedTime = stopwatch.getElapsed();
 		int64_t timeLeftInFrame = frameDurationMs - clockedTime.toMilliseconds();
+#if !NDEBUG
+		// If we are debugging, the time left would be negative, because we paused on breakpoints.
+		// Set some constant sleep time for these cases.
+#define SLEEP_TIME_IN_DEBUG 100
+		if (timeLeftInFrame < 0) {
+			timeLeftInFrame = SLEEP_TIME_IN_DEBUG;
+		}
+#undef SLEEP_TIME_IN_DEBUG
+#endif
 		ThreadUtils::sleepFor(timeLeftInFrame);
 	}
 }
