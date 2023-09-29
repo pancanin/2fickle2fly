@@ -5,6 +5,8 @@
 #include "engine/math/Vec2.h"
 #include "engine/drawables/GameObject.h"
 #include "engine/input/EventEmitter.h"
+#include "engine/physics/collisions/CollisionData.h"
+#include "engine/physics/collisions/CollisionResolver.h"
 
 void Breakout::onStart()
 {
@@ -18,7 +20,7 @@ void Breakout::onStart()
 
   auto ballDim = 16;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 3.0f));
 
   buildSideWalls();
 }
@@ -40,19 +42,25 @@ void Breakout::onUpdate()
 
 void Breakout::handleCollision(const CollisionData& collision)
 {
-  if (collision.query(ballId).hasCollision) {
-    GameObject& ball = objects.get(ballId);
+  CollisionData c = collision.query(ballId);
+  if (c.hasCollision) {
+    GameObject& ball = objects.get(c.o1Id);
     ball.steer(ball.direction.getWorldSpace().reflect(collision.o2N));
+  }
+}
+
+void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
+{
+  CollisionData cQueried = c.query(ballId);
+  if (cQueried.hasCollision) {
+    GameObject& ball = objects.get(cQueried.o1Id);
+    GameObject& other = objects.get(cQueried.o2Id);
+    r.resolveCollisions(ball, other);
   }
 }
 
 void Breakout::buildSideWalls()
 {
-  // have a variable that will be equal to the initial padding
-  // start a loop with the variable to the max width of the screen
-  // build a game object and add it to objects
-  // increment the variable with padding + size of brick
-
   Color sidewallColor{ 128, 128, 128, 255 };
 
   // Upper wall

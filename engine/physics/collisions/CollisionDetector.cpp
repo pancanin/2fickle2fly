@@ -14,9 +14,8 @@ std::vector<CollisionData> CollisionDetector::checkCollisions(const std::vector<
 		for (size_t j = i + 1 /* don't cross check objects */; j < objs.size(); ++j) {
 			const GameObject& o2 = objs[j];
 
-			Rect r1 = o1.getRect().;
-			std::vector<Segment> o1Segments = segmenter.segment(o1.getRect());
-			std::vector<Segment> o2Segments = segmenter.segment(o2.getRect());
+			std::vector<Segment> o1Segments = segmenter.segment(o1.getRect().toWorldSpace());
+			std::vector<Segment> o2Segments = segmenter.segment(o2.getRect().toWorldSpace());
 
 			for (Segment& o1Seg : o1Segments) {
 				for (Segment& o2Seg : o2Segments) {

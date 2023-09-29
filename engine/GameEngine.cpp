@@ -6,6 +6,7 @@
 #include "osplatform/ThreadUtils.h"
 #include "engine/physics/collisions/CollisionDetector.h"
 #include "engine/physics/collisions/CollisionAggregator.h"
+#include "engine/physics/collisions/CollisionResolver.h"
 #include "engine/physics/collisions/Segmenter.h"
 
 #define MILLIS_IN_SECOND 1000
@@ -35,6 +36,7 @@ void GameEngine::start() {
 	Segmenter seg(3); // the segment size is dependent on the speed of an object, so maybe this needs change.
 	CollisionDetector detector(seg);
 	CollisionAggregator aggre;
+	CollisionResolver collisionResolver(detector);
 
 	while (!stop) {
 		stopwatch.getElapsed();
@@ -49,6 +51,7 @@ void GameEngine::start() {
 
 		CollisionData collision = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
 		handleCollision(collision);
+		resolveCollision(collisionResolver, collision);
 
 		for (auto& o : objects.elements()) {
 			if (rend.render(o) != 0) {

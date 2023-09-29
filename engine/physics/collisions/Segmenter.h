@@ -19,6 +19,9 @@ struct Segment {
 	Vec2 N;
 };
 
+/// <summary>
+/// Works in world space coordinates.
+/// </summary>
 class Segmenter {
 public:
 	Segmenter(uint32_t segmentThickness) : segmentThickness(segmentThickness) {}

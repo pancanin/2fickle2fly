@@ -14,6 +14,8 @@
 #include "engine/input/EventEmitter.h"
 #include "engine/physics/collisions/CollisionData.h"
 
+class CollisionResolver;
+
 class GameEngine {
 public:
 	GameEngine(uint32_t w, uint32_t h, uint32_t frameRate);
@@ -25,7 +27,6 @@ protected:
 	
 	/// <summary>
 	/// Adds a GameObject to storage and assigns it an ID.
-	/// 
 	/// </summary>
 	/// <param name="obj">Temporary GameObject used for initialising the 'permanent' GameObject that will 'live' in storage.</param>
 	/// <returns>The id of the added object. This id can be used for retrieving the object.</returns>
@@ -38,6 +39,7 @@ protected:
 	virtual void setKeyBindings(EventEmitter&) = 0;
 	virtual void onUpdate() = 0;
 	virtual void handleCollision(const CollisionData&) = 0;
+	virtual void resolveCollision(CollisionResolver&, const CollisionData&) = 0;
 
 	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.
 	PrimitivesStorage<GameObject> objects;

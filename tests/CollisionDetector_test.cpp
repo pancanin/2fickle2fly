@@ -9,8 +9,8 @@
 
 TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingSide) {
 
-	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(20, -10), 5, 10, Color{});
-	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(10, -18), 20, 10, Color{});
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(20, 10), 5, 10, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(10, 18), 20, 10, Color{});
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
@@ -109,5 +109,56 @@ TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsFoundBug) {
 
 	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
 
-	//ASSERT_EQ(collisions.size(), 0);
+	ASSERT_EQ(collisions.size(), 0);
 }
+
+TEST(CollisionDetectorTest, SixSideCollisions) {
+
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 10, 8, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(8, 0), 10, 8, Color{});
+	ID o1Id = o1.getId();
+	ID o2Id = o2.getId();
+	std::vector<GameObject> objs{ o1, o2 };
+	Segmenter seg(3);
+	CollisionDetector detector(seg);
+
+	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
+
+	ASSERT_EQ(collisions.size(), 7);
+
+	ASSERT_EQ(collisions[0].o1N.x, 0);
+	ASSERT_EQ(collisions[0].o1N.y, 1);
+	ASSERT_EQ(collisions[0].o2N.x, 0);
+	ASSERT_EQ(collisions[0].o2N.y, 1);
+
+	ASSERT_EQ(collisions[1].o1N.x, 0);
+	ASSERT_EQ(collisions[1].o1N.y, 1);
+	ASSERT_EQ(collisions[1].o2N.x, -1);
+	ASSERT_EQ(collisions[1].o2N.y, 0);
+
+	ASSERT_EQ(collisions[2].o1N.x, 1);
+	ASSERT_EQ(collisions[2].o1N.y, 0);
+	ASSERT_EQ(collisions[2].o2N.x, 0);
+	ASSERT_EQ(collisions[2].o2N.y, 1);
+
+	ASSERT_EQ(collisions[3].o1N.x, 1);
+	ASSERT_EQ(collisions[3].o1N.y, 0);
+	ASSERT_EQ(collisions[3].o2N.x, 0);
+	ASSERT_EQ(collisions[3].o2N.y, -1);
+
+	ASSERT_EQ(collisions[4].o1N.x, 1);
+	ASSERT_EQ(collisions[4].o1N.y, 0);
+	ASSERT_EQ(collisions[4].o2N.x, -1);
+	ASSERT_EQ(collisions[4].o2N.y, 0);
+
+	ASSERT_EQ(collisions[5].o1N.x, 0);
+	ASSERT_EQ(collisions[5].o1N.y, -1);
+	ASSERT_EQ(collisions[5].o2N.x, 0);
+	ASSERT_EQ(collisions[5].o2N.y, -1);
+
+	ASSERT_EQ(collisions[6].o1N.x, 0);
+	ASSERT_EQ(collisions[6].o1N.y, -1);
+	ASSERT_EQ(collisions[6].o2N.x, -1);
+	ASSERT_EQ(collisions[6].o2N.y, 0);
+}
+

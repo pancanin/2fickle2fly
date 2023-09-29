@@ -17,8 +17,6 @@ struct GameObject {
 
 	void updatePosition();
 
-	Rect toWorldSpace() const;
-
 	/// <summary>
 	/// Speed in pixels per frame.
 	/// We might need something more real-world later on.
