@@ -161,4 +161,3 @@ TEST(CollisionDetectorTest, SixSideCollisions) {
 	ASSERT_EQ(collisions[6].o2N.x, -1);
 	ASSERT_EQ(collisions[6].o2N.y, 0);
 }
-

@@ -9,7 +9,7 @@ class CollisionAggregator {
 public:
 	/// <summary>
 	/// Important Note!!!
-	/// Currently we will support only 1-to-1 collisions between objects. This was an accident, due to bad design :D
+	/// Currently we will support only 1-to-1 collisions between objects.
 	/// 
 	/// Collects information about collisions and averages it for an object.
 	/// Each object is constructed from segments. If there are multiple segments colliding, this method will average the collision data, so it applies to the whole object.

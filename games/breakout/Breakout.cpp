@@ -45,7 +45,8 @@ void Breakout::handleCollision(const CollisionData& collision)
   CollisionData c = collision.query(ballId);
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
-    ball.steer(ball.direction.getWorldSpace().reflect(collision.o2N));
+    Vec2 reflected = ball.direction.getWorldSpace().reflect(c.o2N);
+    ball.steer(reflected);
   }
 }
 
