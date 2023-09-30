@@ -36,7 +36,12 @@ struct GameObjectFactory {
 	}
 
 	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed) {
-		return GameObject(Rect(pos.x, pos.y, w, h, color), speed, Vec2());
+		return GameObject(Rect::Factory::createStandardRect(pos.x, pos.y, w, h, color), speed, Vec2());
+	}
+
+	// All segments of the underlying rectangle will have the same normal. This is useful for objects which have only one side facing the gameplay.
+	static GameObject createSameNormalsObject(const Vec2& n, const Vec2& pos, float w, float h, const Color& color) {
+		return GameObject(Rect::Factory::createCustomNormalsRect(n, n, n, n, pos.x, pos.y, w, h, color));
 	}
 };
 

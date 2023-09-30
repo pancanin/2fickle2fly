@@ -20,7 +20,7 @@ void Breakout::onStart()
 
   auto ballDim = 16;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 3.0f));
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 6.0f));
 
   buildSideWalls();
 }
@@ -66,6 +66,11 @@ void Breakout::buildSideWalls()
 
   // Upper wall
   for (size_t i = padding; i < getWindowWidth(); i += padding + brickWidth) {
-    add(GameObjectFactory::createImmovableObject(Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
+    add(GameObjectFactory::createSameNormalsObject(Vec2(0, -1), Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
+  }
+
+  // Left wall
+  for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
+    add(GameObjectFactory::createSameNormalsObject(Vec2(1, 0), Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
   }
 }

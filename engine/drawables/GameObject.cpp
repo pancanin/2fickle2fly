@@ -25,10 +25,9 @@ Rect GameObject::getRect() const
 
 void GameObject::updatePosition()
 {
-	Vec2 currentPos(rect._rect.x, rect._rect.y);
+	Vec2 currentPos(rect.getX(), rect.getY());
 	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
-	rect._rect.x = newPos.x;
-	rect._rect.y = newPos.y;
+	this->rect.updatePosition(newPos);
 }
 
 void GameObject::setSpeed(float v)

@@ -24,9 +24,11 @@ int32_t Renderer::init(Window& window, const Color& clearColor)
 
 int32_t Renderer::render(const Rect& rect) const
 {
-  int32_t rdc = SDL_SetRenderDrawColor(_renderer, rect.color.r, rect.color.g, rect.color.b, rect.color.a);
+  Color c = rect.getColor();
+  int32_t rdc = SDL_SetRenderDrawColor(_renderer, c.r, c.g, c.b, c.a);
   if (rdc != 0) return rdc;
-  return SDL_RenderFillRectF(_renderer, &rect._rect);
+  SDL_FRect sdlRect{ rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight() };
+  return SDL_RenderFillRectF(_renderer, &sdlRect);
 }
 
 int32_t Renderer::render(const GameObject& obj) const

@@ -5,13 +5,17 @@
 std::vector<Segment> Segmenter::segment(const Rect& r) const
 {
 	std::vector<Segment> segments;
-	auto rect = r._rect;
-	auto t = segmentThickness;
+	float x = r.getX();
+	float y = r.getY();
+	float w = r.getWidth();
+	float h = r.getHeight();
+	float t = segmentThickness;
+	std::vector<Vec2> normals = r.getNormals();
 
-	segments.push_back(Segment{ BoundingBox(Vec2(rect.x, rect.y - t), Vec2(rect.x + rect.w, rect.y)), Vec2(0, 1) });
-	segments.push_back(Segment{ BoundingBox(Vec2(rect.x + rect.w - t, rect.y - rect.h), Vec2(rect.x + rect.w, rect.y)), Vec2(1, 0) });
-	segments.push_back(Segment{ BoundingBox(Vec2(rect.x, rect.y - rect.h), Vec2(rect.x + rect.w, rect.y - rect.h + t)), Vec2(0, -1) });
-	segments.push_back(Segment{ BoundingBox(Vec2(rect.x, rect.y - rect.h), Vec2(rect.x + t, rect.y)), Vec2(-1, 0) });
+	segments.push_back(Segment{ BoundingBox(Vec2(x, y - t), Vec2(x + w, y)), normals[0] });
+	segments.push_back(Segment{ BoundingBox(Vec2(x + w - t, y - h), Vec2(x + w, y)), normals[1] });
+	segments.push_back(Segment{ BoundingBox(Vec2(x, y - h), Vec2(x + w, y - h + t)), normals[2] });
+	segments.push_back(Segment{ BoundingBox(Vec2(x, y - h), Vec2(x + t, y)), normals[3] });
 
 	return segments;
 }
