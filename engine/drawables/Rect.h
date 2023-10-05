@@ -8,6 +8,8 @@
 
 struct Rect {
 
+	Rect() = default;
+
 	float getX() const {
 		return x;
 	}

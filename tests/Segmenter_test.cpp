@@ -8,7 +8,7 @@
 TEST(SegmenterTest, GenerateFourSegmentsSpanningFourQuadrants) {
 	uint32_t thickness = 5;
 	Segmenter s(thickness);
-	Rect r(-10, 10, 50, 40, Color{});
+	Rect r = Rect::Factory::createStandardRect(-10, 10, 50, 40, Color{});
 
 	std::vector<Segment> segments = s.segment(r);
 	ASSERT_EQ(segments[0].bb.min.x, -10);

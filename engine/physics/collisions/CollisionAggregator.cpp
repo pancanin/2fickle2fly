@@ -1,22 +1,54 @@
 #include "CollisionAggregator.h"
 
-CollisionData CollisionAggregator::aggregateCollisions(std::vector<CollisionData>& collisions) const
+#include <utility>
+#include <unordered_map>
+#include <iostream>
+
+#include "engine/physics/collisions/CollisionData.h"
+#include "engine/misc/ID.h"
+
+// Represents a pair of objects that have collided.
+typedef std::pair<ID, ID> CollisionKey;
+
+struct Hash {
+	std::size_t operator()(const CollisionKey& r) const {
+		std::size_t res = 17;
+		res = res * 31 + std::hash<ID>()(r.first);
+		res = res * 31 + std::hash<ID>()(r.second);
+		return res;
+	}
+};
+
+typedef std::unordered_map<CollisionKey, CollisionData, Hash> CollisionAggregate;
+
+std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<CollisionData>& collisions) const
 {
-	CollisionData aggrCollision;
+	CollisionAggregate collisionAggregate;
 
 	for (CollisionData& collision : collisions) {
+		CollisionKey key = std::make_pair(collision.o1Id, collision.o2Id);
 
-		// There is no issue in reassigning these each time because they should be the same.
-		aggrCollision.o1Id = collision.o1Id;
-		aggrCollision.o2Id = collision.o2Id;
-		aggrCollision.hasCollision = collision.hasCollision;
+		if (collisionAggregate.find(key) != collisionAggregate.end()) {
+			// We already have an existing record for this collision, so lets accumulate the normals.
+			CollisionData c = collisionAggregate[key];
 
-		aggrCollision.o1N = aggrCollision.o1N + collision.o1N;
-		aggrCollision.o2N = aggrCollision.o2N + collision.o2N;
+			c.o1N = c.o1N + collision.o1N;
+			c.o2N = c.o2N + collision.o2N;
+			collisionAggregate[key] = c;
+		}
+		else {
+			CollisionData c(collision.o1Id, collision.o2Id, collision.o1N, collision.o2N);
+			collisionAggregate[key] = c;
+		}
 	}
 
-	aggrCollision.o1N = aggrCollision.o1N.normalized();
-	aggrCollision.o2N = aggrCollision.o2N.normalized();
+	std::vector<CollisionData> aggrCollisions;
 
-	return aggrCollision;
+	for (auto& c : collisionAggregate) {
+		c.second.o1N = c.second.o1N.normalized();
+		c.second.o2N = c.second.o2N.normalized();
+		aggrCollisions.push_back(c.second);
+	}
+
+	return aggrCollisions;
 }

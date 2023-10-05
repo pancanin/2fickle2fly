@@ -7,7 +7,7 @@ CollisionResolver::CollisionResolver(CollisionDetector& detector): detector(dete
 {
 }
 
-void CollisionResolver::resolveCollisions(GameObject& o1, GameObject& o2) const
+void CollisionResolver::separateObjects(GameObject& o1, GameObject& o2) const
 {
 	while (true) {
 		auto collision = detector.checkCollisions({ o1, o2 });

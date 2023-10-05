@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name="collisions">Collisions per segment of an object</param>
 	/// <returns>Collision data for the colliding objects. The collision data will always be for the same two objects and their order will be the same in each collision object.</returns>
-	CollisionData aggregateCollisions(std::vector<CollisionData>& collisions) const;
+	std::vector<CollisionData> aggregateCollisions(std::vector<CollisionData>& collisions) const;
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISIONAGGREGATOR

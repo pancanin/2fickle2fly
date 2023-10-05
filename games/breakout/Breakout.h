@@ -31,6 +31,7 @@ private:
 	uint32_t padding = 2;
 	uint32_t brickWidth = 32;
 	uint32_t brickHeight = 16;
+	float paddleSpeed = 5.0f;
 };
 
 #endif // !GAMES_BREAKOUT

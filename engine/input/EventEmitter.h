@@ -4,7 +4,8 @@
 #include <functional>
 #include <vector>
 
-struct Event {};
+struct Event {
+};
 
 typedef std::function<void(Event)> ListenerFunc;
 
@@ -17,17 +18,24 @@ enum class Key {
 	SPACE = 32, //SDLK_SPACE
 };
 
+enum class ActionType {
+	KEYUP,
+	KEYDOWN
+};
+
 struct KeyBinding {
 	Key key;
+	ActionType action; // The type of key press - pressing the key down, up, holding it, etc.
 	ListenerFunc listener;
 };
 
 class EventEmitter {
 public:
 	void poll();
-	void listen(Key, ListenerFunc);
+	void listen(Key, ActionType, ListenerFunc);
 private:
 	std::vector<KeyBinding> bindings;
+	Key previousKey;
 };
 
 #endif // !ENGINE_INPUT_EVENT_EMITTER_H

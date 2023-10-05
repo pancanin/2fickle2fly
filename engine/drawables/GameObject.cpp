@@ -1,8 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const Rect& r, float v, Vec2 d): id(0), rect(r), speed(v), direction(d)
-{
-}
+#include "engine/physics/collisions/CollisionData.h"
+
+GameObject::GameObject(const Rect& r, float v, Vec2 d): id(0), rect(r), speed(v), direction(d) {}
 
 GameObject::GameObject(const Rect& r) : GameObject(r, 0.0f, Vec2{})
 {
@@ -28,6 +28,11 @@ void GameObject::updatePosition()
 	Vec2 currentPos(rect.getX(), rect.getY());
 	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
 	this->rect.updatePosition(newPos);
+}
+
+void GameObject::bounceOff(const CollisionData& c)
+{
+	this->steer(this->direction.getWorldSpace().reflect(c.o2N));
 }
 
 void GameObject::setSpeed(float v)

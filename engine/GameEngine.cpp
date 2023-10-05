@@ -24,7 +24,7 @@ int32_t GameEngine::init(const std::string& windowLabel)
 	}
 
 	// Setup some common key-bindings for every game.
-	ee.listen(Key::ESC, [this](Event e) { stop = true; });
+	ee.listen(Key::ESC, ActionType::KEYDOWN, [this](Event e) { stop = true; });
 
 	return 0;
 }
@@ -49,9 +49,12 @@ void GameEngine::start() {
 		}
 		onUpdate();
 
-		CollisionData collision = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
-		handleCollision(collision);
-		resolveCollision(collisionResolver, collision);
+		std::vector<CollisionData> collisions = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
+
+		for (auto const& c : collisions) {
+			handleCollision(c);
+			resolveCollision(collisionResolver, c);
+		}
 
 		for (auto& o : objects.elements()) {
 			if (rend.render(o) != 0) {

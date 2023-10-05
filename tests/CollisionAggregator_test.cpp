@@ -14,16 +14,16 @@ TEST(CollisionAggregatorTest, CompactCollisionDataPerObject) {
 	};
 	CollisionAggregator colAggr;
 
-	CollisionData collision = colAggr.aggregateCollisions(collisions);
+	std::vector<CollisionData> aggrcollisions = colAggr.aggregateCollisions(collisions);
 
-	ASSERT_TRUE(collision.hasCollision);
-	ASSERT_EQ(collision.o1Id, 1);
-	ASSERT_EQ(collision.o2Id, 2);
+	ASSERT_TRUE(aggrcollisions[0].hasCollision);
+	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
+	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
 
-	ASSERT_EQ(collision.o1N.x, 0);
-	ASSERT_EQ(collision.o1N.y, -1);
-	ASSERT_EQ(collision.o2N.x, 0);
-	ASSERT_EQ(collision.o2N.y, 1);
+	ASSERT_EQ(aggrcollisions[0].o1N.x, 0);
+	ASSERT_EQ(aggrcollisions[0].o1N.y, -1);
+	ASSERT_EQ(aggrcollisions[0].o2N.x, 0);
+	ASSERT_EQ(aggrcollisions[0].o2N.y, 1);
 }
 
 TEST(CollisionAggregatorTest, CompactCollisionDataPerObjectAtCorner) {
@@ -35,14 +35,14 @@ TEST(CollisionAggregatorTest, CompactCollisionDataPerObjectAtCorner) {
 	};
 	CollisionAggregator colAggr;
 
-	CollisionData collision = colAggr.aggregateCollisions(collisions);
+	std::vector<CollisionData> aggrcollisions = colAggr.aggregateCollisions(collisions);
 
-	ASSERT_TRUE(collision.hasCollision);
-	ASSERT_EQ(collision.o1Id, 1);
-	ASSERT_EQ(collision.o2Id, 2);
+	ASSERT_TRUE(aggrcollisions[0].hasCollision);
+	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
+	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
 
-	ASSERT_FLOAT_EQ(collision.o1N.x, 0.707107f);
-	ASSERT_FLOAT_EQ(collision.o1N.y, -0.707107f);
-	ASSERT_FLOAT_EQ(collision.o2N.x, -0.707107f);
-	ASSERT_FLOAT_EQ(collision.o2N.y, 0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.x, 0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.y, -0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.x, -0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.y, 0.707107f);
 }

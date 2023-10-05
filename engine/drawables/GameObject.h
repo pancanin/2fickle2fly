@@ -6,6 +6,8 @@
 #include "engine/math/Direction.h"
 #include "engine/misc/ID.h"
 
+struct CollisionData;
+
 struct GameObject {
 	GameObject(const Rect&, float speed, Vec2 direction);
 	GameObject(const Rect&);
@@ -16,6 +18,7 @@ struct GameObject {
 	Rect getRect() const;
 
 	void updatePosition();
+	void bounceOff(const CollisionData&);
 
 	/// <summary>
 	/// Speed in pixels per frame.
@@ -26,7 +29,7 @@ struct GameObject {
 //private:
 	ID id;
 	Rect rect;
-	float speed; // pixels per second
+	float speed; // current speed pixels per second
 	Direction direction;
 };
 
@@ -40,7 +43,7 @@ struct GameObjectFactory {
 	}
 
 	// All segments of the underlying rectangle will have the same normal. This is useful for objects which have only one side facing the gameplay.
-	static GameObject createSameNormalsObject(const Vec2& n, const Vec2& pos, float w, float h, const Color& color) {
+	static GameObject createEqualNormalsObject(const Vec2& n, const Vec2& pos, float w, float h, const Color& color) {
 		return GameObject(Rect::Factory::createCustomNormalsRect(n, n, n, n, pos.x, pos.y, w, h, color));
 	}
 };
