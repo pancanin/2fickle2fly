@@ -48,6 +48,8 @@ std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<
 		c.second.o1N = c.second.o1N.normalized();
 		c.second.o2N = c.second.o2N.normalized();
 		aggrCollisions.push_back(c.second);
+		std::cout << "Found a collision between objects with id: " << c.second.o1Id <<
+			" and id: " << c.second.o2Id << '\n';
 	}
 
 	return aggrCollisions;

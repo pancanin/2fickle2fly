@@ -65,7 +65,8 @@ void Breakout::handleCollision(const CollisionData& collision)
   c = collision.query(paddleId);
   if (c.hasCollision) {
     auto& paddle = objects.get(c.o1Id);
-    paddle.setSpeed(0.0);
+    paddle.setSpeed(0.0); // we are stopping the paddle when we hit a ball which is realistic and 
+    // seems not to break the game flow.
   }
 }
 
@@ -78,13 +79,13 @@ void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
     r.separateObjects(ball, other);
   }
 
-  cQueried = c.query(paddleId);
+  /*cQueried = c.query(paddleId);
   if (cQueried.hasCollision) {
     GameObject& paddle = objects.get(cQueried.o1Id);
     GameObject& other = objects.get(cQueried.o2Id);
     paddle.direction = Direction(-paddle.direction.getWorldSpace());
     r.separateObjects(paddle, other);
-  }
+  }*/
 }
 
 void Breakout::buildSideWalls()
