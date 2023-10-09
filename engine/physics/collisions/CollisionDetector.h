@@ -9,6 +9,15 @@
 #include "engine/physics/collisions/Segmenter.h"
 #include "engine/physics/collisions/CollisionData.h"
 
+/// <summary>
+/// Description of the collision algorithm.
+/// 
+/// All collidable objects are rectangles.
+/// Rectangles' sides are segments, which are rectangles themselves.
+/// Segments are used to find which side of a rectangle is hit.
+/// When two rectangles collide, more than two segments intersect.
+/// For the above reason, we have CollisionAggregator class that finds a smooth normal from colliding segments normals.
+/// </summary>
 class CollisionDetector {
 public:
 	CollisionDetector(const Segmenter&);

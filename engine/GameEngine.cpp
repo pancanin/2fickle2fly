@@ -52,8 +52,8 @@ void GameEngine::start() {
 		std::vector<CollisionData> collisions = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
 
 		for (auto const& c : collisions) {
-			handleCollision(c);
-			resolveCollision(collisionResolver, c);
+			handleCollision(collisionResolver, c);
+			//resolveCollision(collisionResolver, c);
 		}
 
 		for (auto& o : objects.elements()) {

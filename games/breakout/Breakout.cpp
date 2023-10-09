@@ -55,12 +55,15 @@ void Breakout::onUpdate()
 {
 }
 
-void Breakout::handleCollision(const CollisionData& collision)
+void Breakout::handleCollision(CollisionResolver& r, const CollisionData& collision)
 {
   CollisionData c = collision.query(ballId);
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
+    Vec2 prevBallDir = ball.direction.getWorldSpace();
+    GameObject& other = objects.get(c.o2Id);
     ball.bounceOff(c);
+    r.separateObjects(ball, other, prevBallDir);
   }
   c = collision.query(paddleId);
   if (c.hasCollision) {
@@ -76,7 +79,7 @@ void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
   if (cQueried.hasCollision) {
     GameObject& ball = objects.get(cQueried.o1Id);
     GameObject& other = objects.get(cQueried.o2Id);
-    r.separateObjects(ball, other);
+    r.separateObjects(ball, other, c.o2N);
   }
 
   /*cQueried = c.query(paddleId);

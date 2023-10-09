@@ -11,10 +11,10 @@ public:
 	/// <summary>
 	/// Nudge game object o1 away from o2 until they are no longer intersecting.
 	/// </summary>
-	void separateObjects(GameObject& o1, GameObject& o2) const;
+	void separateObjects(GameObject& o1, GameObject& o2, const Vec2& prevBallDir) const;
 
 private:
-	const float resolutionSpeed = 8.0f; // The speed we move game objects away from one another so they no longer intersect.
+	const float resolutionSpeed = 20.3f; // The speed we move game objects away from one another so they no longer intersect.
 	CollisionDetector& detector;
 };
 

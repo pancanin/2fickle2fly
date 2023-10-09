@@ -38,7 +38,7 @@ protected:
 	virtual void onStart() = 0;
 	virtual void setKeyBindings(EventEmitter&) = 0;
 	virtual void onUpdate() = 0;
-	virtual void handleCollision(const CollisionData&) = 0;
+	virtual void handleCollision(CollisionResolver&, const CollisionData&) = 0;
 	virtual void resolveCollision(CollisionResolver&, const CollisionData&) = 0;
 
 	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.
