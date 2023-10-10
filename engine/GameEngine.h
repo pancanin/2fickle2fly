@@ -15,6 +15,7 @@
 #include "engine/physics/collisions/CollisionData.h"
 
 class CollisionResolver;
+class CollisionDetector;
 
 class GameEngine {
 public:
@@ -38,7 +39,7 @@ protected:
 	virtual void onStart() = 0;
 	virtual void setKeyBindings(EventEmitter&) = 0;
 	virtual void onUpdate() = 0;
-	virtual void handleCollision(CollisionResolver&, const CollisionData&) = 0;
+	virtual void handleCollision(CollisionResolver&, CollisionDetector& d, const CollisionData&) = 0;
 	virtual void resolveCollision(CollisionResolver&, const CollisionData&) = 0;
 
 	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.

@@ -54,3 +54,8 @@ std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<
 
 	return aggrCollisions;
 }
+
+std::vector<CollisionData> CollisionAggregator::getFirstCollision(std::vector<CollisionData>& collisions) const
+{
+	return std::vector<CollisionData>();
+}

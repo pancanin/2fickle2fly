@@ -19,12 +19,12 @@ public:
 	std::vector<CollisionData> aggregateCollisions(std::vector<CollisionData>& collisions) const;
 
 	/// <summary>
-	/// Used for resolving just one collision per collision detection check.
+	/// Used for resolving just one collision per object per collision detection check.
 	/// This is a simplification that is done instead of accumulating one-to-many collisions to an aggregate normal.
 	/// </summary>
-	/// <param name=""></param>
-	/// <returns></returns>
-	std::vector<CollisionData> getFirstCollision(std::vector<CollisionData>&) const;
+	/// <param name="collisions">All collisions between objects</param>
+	/// <returns>A single collision per object</returns>
+	std::vector<CollisionData> getFirstCollision(std::vector<CollisionData>& collisions) const;
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISIONAGGREGATOR

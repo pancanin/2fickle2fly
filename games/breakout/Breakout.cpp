@@ -7,6 +7,7 @@
 #include "engine/input/EventEmitter.h"
 #include "engine/physics/collisions/CollisionData.h"
 #include "engine/physics/collisions/CollisionResolver.h"
+#include "engine/physics/collisions/CollisionDetector.h"
 
 void Breakout::onStart()
 {
@@ -55,15 +56,19 @@ void Breakout::onUpdate()
 {
 }
 
-void Breakout::handleCollision(CollisionResolver& r, const CollisionData& collision)
+void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const CollisionData& collision)
 {
   CollisionData c = collision.query(ballId);
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
     Vec2 prevBallDir = ball.direction.getWorldSpace();
     GameObject& other = objects.get(c.o2Id);
-    ball.bounceOff(c);
-    r.separateObjects(ball, other, prevBallDir);
+
+    // If there is still a collision
+    if (!d.checkCollisions({ ball, other }).empty()) {
+      ball.bounceOff(c);
+      r.separateObjects(ball, other, prevBallDir);
+    }
   }
   c = collision.query(paddleId);
   if (c.hasCollision) {

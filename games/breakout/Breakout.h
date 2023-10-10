@@ -15,7 +15,7 @@ private:
 	void onStart() override;
 	void setKeyBindings(EventEmitter&) override;
 	void onUpdate() override;
-	void handleCollision(CollisionResolver&, const CollisionData&) override;
+	void handleCollision(CollisionResolver&, CollisionDetector& d, const CollisionData&) override;
 
 	/// <summary>
 	/// Might be not needed in the future if we have a flag on which objects we need to unstuck.
