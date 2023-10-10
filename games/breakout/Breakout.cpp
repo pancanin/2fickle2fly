@@ -31,10 +31,14 @@ void Breakout::setKeyBindings(EventEmitter& ee)
   // Hmmm, don' we have to get the paddle in the lambda itself?
   GameObject& paddle = objects.get(paddleId);
   ee.listen(Key::LEFT, ActionType::KEYDOWN, [&paddle, this](Event e) {
+    Vec2 actionDir = Vec2(-1.0f, 0.0f);
+    if (!canMoveInDir(actionDir)) { return; }
     paddle.steer(Vec2(-1.0f, 0.0f));
     paddle.setSpeed(paddleSpeed);
   });
   ee.listen(Key::RIGHT, ActionType::KEYDOWN, [&paddle, this](Event e) {
+    Vec2 actionDir = Vec2(1.0f, 0.0f);
+    if (!canMoveInDir(actionDir)) { return; }
     paddle.steer(Vec2(1.0f, 0.0f));
     paddle.setSpeed(paddleSpeed);
   });
@@ -54,6 +58,7 @@ void Breakout::setKeyBindings(EventEmitter& ee)
 
 void Breakout::onUpdate()
 {
+  paddleObstacleN = Vec2();
 }
 
 void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const CollisionData& collision)
@@ -75,6 +80,14 @@ void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const
     auto& paddle = objects.get(c.o1Id);
     paddle.setSpeed(0.0); // we are stopping the paddle when we hit a ball which is realistic and 
     // seems not to break the game flow.
+
+    if (ballId != c.o2Id) { // It is not a collision with the ball
+      hasPaddleCollided = true;
+    }
+    else {
+      hasPaddleCollided = false;
+    }
+    paddleObstacleN = c.o2N;
   }
 }
 
