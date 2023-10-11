@@ -53,7 +53,6 @@ void GameEngine::start() {
 
 		for (auto const& c : collisions) {
 			handleCollision(collisionResolver, detector, c);
-			//resolveCollision(collisionResolver, c);
 		}
 
 		for (auto& o : objects.elements()) {

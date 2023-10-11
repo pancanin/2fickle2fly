@@ -24,6 +24,19 @@ void Breakout::onStart()
 	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
 
   buildSideWalls();
+
+  char level1[BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH] = {
+    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
+    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
+    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
+    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
+    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '}
+  };
+  levelBuilder.addLevel(level1);
+  auto objs = levelBuilder.build(0);
+  for (auto& o : objs) {
+    add(o);
+  }
 }
 
 void Breakout::setKeyBindings(EventEmitter& ee)
@@ -63,6 +76,7 @@ void Breakout::onUpdate()
 
 void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const CollisionData& collision)
 {
+  // Handle ball collision
   CollisionData c = collision.query(ballId);
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
@@ -75,6 +89,8 @@ void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const
       r.separateObjects(ball, other, prevBallDir);
     }
   }
+
+  // Handle paddle collisions
   c = collision.query(paddleId);
   if (c.hasCollision) {
     auto& paddle = objects.get(c.o1Id);

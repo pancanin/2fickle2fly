@@ -70,6 +70,9 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/games/breakout/Breakout.h
     ${DIR}/games/breakout/Breakout.cpp
+
+    ${DIR}/games/breakout/levels/LevelBuilder.h
+    ${DIR}/games/breakout/levels/LevelBuilder.cpp
 )
 
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
