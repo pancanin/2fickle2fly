@@ -25,9 +25,6 @@ Rect GameObject::getRect() const
 
 void GameObject::updatePosition()
 {
-	if (rect.getY() < 0) {
-		int a = 4;
-	}
 	Vec2 currentPos(rect.getX(), rect.getY());
 	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
  	this->rect.updatePosition(newPos);

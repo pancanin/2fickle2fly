@@ -26,7 +26,7 @@ std::vector<GameObject> LevelBuilder::build(uint32_t lvlIdx) const
 
 			if (c != ' ') {
 				Vec2 offpos(FIELD_OFFSET_X, FIELD_OFFSET_Y);
-				Vec2 brickPosRel((j * BRICK_WIDTH) + PADDING, (i * BRICKS_FIELD_HEIGHT) + PADDING);
+				Vec2 brickPosRel(j * (BRICK_WIDTH + PADDING), i * (BRICK_HEIGHT + PADDING));
 				objs.push_back(GameObjectFactory::createImmovableObject(offpos + brickPosRel, BRICK_WIDTH, BRICK_HEIGHT, Color{ 255, 0, 0, 255 }));
 			}
 		}

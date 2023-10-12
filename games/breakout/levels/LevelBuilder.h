@@ -25,7 +25,7 @@ public:
 	void addLevel(char level[BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH]);
 	std::vector<GameObject> build(uint32_t lvlIdx) const;
 private:
-	char levels[MAX_LEVELS][BRICKS_FIELD_WIDTH][BRICKS_FIELD_HEIGHT];
+	char levels[MAX_LEVELS][BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH];
 	uint32_t counter = 0;
 };
 
