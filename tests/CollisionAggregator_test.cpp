@@ -46,3 +46,24 @@ TEST(CollisionAggregatorTest, CompactCollisionDataPerObjectAtCorner) {
 	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.x, -0.707107f);
 	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.y, 0.707107f);
 }
+
+TEST(CollisionAggregatorTest, CompactObjectCollisions) {
+	std::vector<CollisionData> collisions{
+		CollisionData(1, 2, Vec2(1, 0), Vec2(1, 1)),
+		CollisionData(1, 3, Vec2(1, 0), Vec2(1, -1))
+	};
+	CollisionAggregator colAggr;
+
+	std::vector<CollisionData> aggrcollisions = colAggr.aggregateMultiCollisions(collisions);
+
+	ASSERT_EQ(aggrcollisions.size(), 1);
+
+	ASSERT_TRUE(aggrcollisions[0].hasCollision);
+	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
+	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
+
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.x, 0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.y, -0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.x, -0.707107f);
+	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.y, 0.707107f);
+}

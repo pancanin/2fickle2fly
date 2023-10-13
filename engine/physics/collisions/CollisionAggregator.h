@@ -25,6 +25,13 @@ public:
 	/// <param name="collisions">All collisions between objects</param>
 	/// <returns>A single collision per object</returns>
 	std::vector<CollisionData> getFirstCollision(std::vector<CollisionData>& collisions) const;
+
+	/// <summary>
+	/// When an object is in collision with more than one object, zip the collision and compute geometric normal.
+	/// </summary>
+	std::vector<CollisionData> aggregateMultiCollisions(const std::vector<CollisionData>&) const;
 };
+
+// TODO: For static objects, we need segments to figure out from which direction something hit it.
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISIONAGGREGATOR

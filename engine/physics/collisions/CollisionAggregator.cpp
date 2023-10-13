@@ -32,8 +32,8 @@ std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<
 			// We already have an existing record for this collision, so lets accumulate the normals.
 			CollisionData c = collisionAggregate[key];
 
-			c.o1N = c.o1N + collision.o1N;
-			c.o2N = c.o2N + collision.o2N;
+			c.o1N = collision.o1N;
+			c.o2N = collision.o2N;
 			collisionAggregate[key] = c;
 		}
 		else {
@@ -45,8 +45,6 @@ std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<
 	std::vector<CollisionData> aggrCollisions;
 
 	for (auto& c : collisionAggregate) {
-		c.second.o1N = c.second.o1N.normalized();
-		c.second.o2N = c.second.o2N.normalized();
 		aggrCollisions.push_back(c.second);
 		std::cout << "Found a collision between objects with id: " << c.second.o1Id <<
 			" and id: " << c.second.o2Id << '\n';
@@ -58,4 +56,24 @@ std::vector<CollisionData> CollisionAggregator::aggregateCollisions(std::vector<
 std::vector<CollisionData> CollisionAggregator::getFirstCollision(std::vector<CollisionData>& collisions) const
 {
 	return std::vector<CollisionData>();
+}
+
+std::vector<CollisionData> CollisionAggregator::aggregateMultiCollisions(const std::vector<CollisionData>& collisions) const
+{
+	std::vector<CollisionData> compressedCollisions;
+	std::unordered_map<ID, CollisionData> objIdToCollision;
+
+	for (auto& c : collisions) {
+		if (objIdToCollision.find(c.o1Id) == objIdToCollision.end()) {
+			objIdToCollision[c.o1Id] = c;
+		}
+		else {
+			objIdToCollision[c.o1Id].o2N = objIdToCollision[c.o1Id].o2N + c.o2N;
+		}
+	}
+
+	for (auto& entry : objIdToCollision) {
+		compressedCollisions.push_back(entry.second);
+	}
+	return compressedCollisions;
 }
