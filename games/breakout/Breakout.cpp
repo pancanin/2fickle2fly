@@ -19,7 +19,7 @@ void Breakout::onStart()
 
 	paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
 
-  auto ballDim = 16;
+  auto ballDim = 10;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
 	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
 
@@ -59,7 +59,7 @@ void Breakout::setKeyBindings(EventEmitter& ee)
 
   GameObject& ball = objects.get(ballId);
   ee.listen(Key::SPACE, ActionType::KEYDOWN, [&ball](Event e) {
-    ball.steer(Vec2(0.0f, 1.0f));
+    ball.steer(Vec2(1.0f, 1.0f));
   });
 
   auto movementKeysUpHandler = [&paddle, this](Event e) {
@@ -75,25 +75,21 @@ void Breakout::onUpdate()
   paddleObstacleN = Vec2();
 }
 
-void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const CollisionData& collision)
+void Breakout::handleCollision(const CollisionData& collision)
 {
   // Handle ball collision
   CollisionData c = collision.query(ballId);
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
-    Vec2 prevBallDir = ball.direction.getWorldSpace();
-    GameObject& other = objects.get(c.o2Id);
-
-    // If there is still a collision
     
+    ball.bounceOff(c);
   }
 
   // Handle paddle collisions
   c = collision.query(paddleId);
   if (c.hasCollision) {
     auto& paddle = objects.get(c.o1Id);
-    paddle.setSpeed(0.0); // we are stopping the paddle when we hit a ball which is realistic and 
-    // seems not to break the game flow.
+    paddle.setSpeed(0.0);
 
     if (ballId != c.o2Id) { // It is not a collision with the ball
       hasPaddleCollided = true;
@@ -129,16 +125,16 @@ void Breakout::buildSideWalls()
 
   // Upper wall
   for (size_t i = padding; i < getWindowWidth(); i += padding + brickWidth) {
-    //add(GameObjectFactory::createEqualNormalsObject(Vec2(0, -1), Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
+    add(GameObjectFactory::createImmovableObject(Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
   }
 
   // Left wall
   for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    //add(GameObjectFactory::createEqualNormalsObject(Vec2(1, 0), Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
+    add(GameObjectFactory::createImmovableObject(Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
   }
 
   // Right wall
   for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    //add(GameObjectFactory::createEqualNormalsObject(Vec2(-1, 0), Vec2(getWindowWidth() - brickHeight - padding, i), brickHeight, brickWidth, sidewallColor));
+    add(GameObjectFactory::createImmovableObject(Vec2(getWindowWidth() - brickHeight - padding, i), brickHeight, brickWidth, sidewallColor));
   }
 }

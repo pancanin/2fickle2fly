@@ -16,7 +16,7 @@ void CollisionResolver::separateObjects(GameObject& o1, GameObject& o2) const
 		" and position: (" << o1.rect.getX() << ", " << o1.rect.getY() << ")\n";
 	std::cout << "Object (" << o2.getId() << "): with direction (" <<
 		o2.direction.getWorldSpace().x << ", " << o2.direction.getWorldSpace().y << ")" <<
-	" and position: (" << o1.rect.getX() << ", " << o1.rect.getY() << ")\n";
+	" and position: (" << o2.rect.getX() << ", " << o2.rect.getY() << ")\n";
 
 	// Save the previous direction and speed because we will set them after the resolution has been completed.
 	float o1Speed = o1.speed;
@@ -37,7 +37,8 @@ void CollisionResolver::separateObjects(GameObject& o1, GameObject& o2) const
 			exit = false;
 		});
 		if (exit) { break; }
-		std::cout << "Unstucking objects" << std::endl;
+		std::cout << "Unstucking objects, so obj 1 has (x: " << o1.rect.getX() << ", y: " << o1.rect.getY() << ") and obj 2 has (x: " <<
+		 o2.rect.getX() << ", y: " << o2.rect.getY() << ")" << std::endl;
 		o1.updatePosition();
 		o2.updatePosition();
 	}

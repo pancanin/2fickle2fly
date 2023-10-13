@@ -50,9 +50,12 @@ void GameEngine::start() {
 		onUpdate();
 
 		// Collisions
-		detector.checkCollisions(objects.elements(), [&collisionResolver](const GameObject& o1, const GameObject& o2) {
+		detector.checkCollisions(objects.elements(), [this, &collisionResolver, &aggre](const GameObject& o1, const GameObject& o2) {
 			collisionResolver.separateObjects(const_cast<GameObject&>(o1), const_cast<GameObject&>(o2));
-
+			Vec2 o1N = aggre.calculateHitNormal(o1, o2);
+			Vec2 o2N = aggre.calculateHitNormal(o2, o1);
+			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
+			handleCollision(c);
 		});
 
 		for (auto& o : objects.elements()) {
