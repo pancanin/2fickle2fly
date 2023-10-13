@@ -34,7 +34,7 @@ void GameEngine::start() {
 	setKeyBindings(ee);
 	Time stopwatch;
 	Segmenter seg(3); // the segment size is dependent on the speed of an object, so maybe this needs change.
-	CollisionDetector detector(seg);
+	CollisionDetector detector;
 	CollisionAggregator aggre;
 	CollisionResolver collisionResolver(detector);
 
@@ -49,11 +49,11 @@ void GameEngine::start() {
 		}
 		onUpdate();
 
-		std::vector<CollisionData> collisions = aggre.aggregateCollisions(detector.checkCollisions(objects.elements()));
+		// Collisions
+		detector.checkCollisions(objects.elements(), [&collisionResolver](const GameObject& o1, const GameObject& o2) {
+			collisionResolver.separateObjects(const_cast<GameObject&>(o1), const_cast<GameObject&>(o2));
 
-		for (auto const& c : collisions) {
-			handleCollision(collisionResolver, detector, c);
-		}
+		});
 
 		for (auto& o : objects.elements()) {
 			if (rend.render(o) != 0) {

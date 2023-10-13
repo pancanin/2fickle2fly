@@ -85,10 +85,7 @@ void Breakout::handleCollision(CollisionResolver& r, CollisionDetector& d, const
     GameObject& other = objects.get(c.o2Id);
 
     // If there is still a collision
-    if (!d.checkCollisions({ ball, other }).empty()) {
-      ball.bounceOff(c);
-      r.separateObjects(ball, other, prevBallDir);
-    }
+    
   }
 
   // Handle paddle collisions
@@ -114,7 +111,7 @@ void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
   if (cQueried.hasCollision) {
     GameObject& ball = objects.get(cQueried.o1Id);
     GameObject& other = objects.get(cQueried.o2Id);
-    r.separateObjects(ball, other, c.o2N);
+    r.separateObjects(ball, other);
   }
 
   /*cQueried = c.query(paddleId);
@@ -132,16 +129,16 @@ void Breakout::buildSideWalls()
 
   // Upper wall
   for (size_t i = padding; i < getWindowWidth(); i += padding + brickWidth) {
-    add(GameObjectFactory::createEqualNormalsObject(Vec2(0, -1), Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
+    //add(GameObjectFactory::createEqualNormalsObject(Vec2(0, -1), Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
   }
 
   // Left wall
   for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    add(GameObjectFactory::createEqualNormalsObject(Vec2(1, 0), Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
+    //add(GameObjectFactory::createEqualNormalsObject(Vec2(1, 0), Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
   }
 
   // Right wall
   for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    add(GameObjectFactory::createEqualNormalsObject(Vec2(-1, 0), Vec2(getWindowWidth() - brickHeight - padding, i), brickHeight, brickWidth, sidewallColor));
+    //add(GameObjectFactory::createEqualNormalsObject(Vec2(-1, 0), Vec2(getWindowWidth() - brickHeight - padding, i), brickHeight, brickWidth, sidewallColor));
   }
 }

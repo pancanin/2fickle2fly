@@ -38,13 +38,16 @@ struct GameObjectFactory {
 		return createObject(pos, w, h, color, 0.0f);
 	}
 
-	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed) {
-		return GameObject(Rect::Factory::createStandardRect(pos.x, pos.y, w, h, color), speed, Vec2());
+	static GameObject createImmovableObject(const Vec2& pos, float w, float h) {
+		return createObject(pos, w, h, Color{}, 0.0f);
 	}
 
-	// All segments of the underlying rectangle will have the same normal. This is useful for objects which have only one side facing the gameplay.
-	static GameObject createEqualNormalsObject(const Vec2& n, const Vec2& pos, float w, float h, const Color& color) {
-		return GameObject(Rect::Factory::createCustomNormalsRect(n, n, n, n, pos.x, pos.y, w, h, color));
+	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed) {
+		return GameObject(Rect::Factory::createRect(pos.x, pos.y, w, h, color), speed, Vec2());
+	}
+
+	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed, const Vec2& dir) {
+		return GameObject(Rect::Factory::createRect(pos.x, pos.y, w, h, color), speed, dir);
 	}
 };
 

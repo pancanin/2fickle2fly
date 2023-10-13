@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <vector>
+#include <iostream>
 
 #include "engine/drawables/GameObject.h"
 #include "engine/physics/collisions/Segmenter.h"
@@ -14,38 +15,13 @@ TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingSide) {
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
-	Segmenter seg(5);
-	CollisionDetector detector(seg);
+	CollisionDetector detector;
 
-	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
-
-	// We expect 3 collisions
-	ASSERT_EQ(collisions.size(), 3);
-	ASSERT_TRUE(collisions[0].hasCollision);
-	ASSERT_TRUE(collisions[1].hasCollision);
-	ASSERT_TRUE(collisions[2].hasCollision);
-
-	ASSERT_EQ(collisions[0].o1Id, o1Id);
-	ASSERT_EQ(collisions[0].o2Id, o2Id);
-	ASSERT_EQ(collisions[1].o1Id, o1Id);
-	ASSERT_EQ(collisions[1].o2Id, o2Id);
-	ASSERT_EQ(collisions[2].o1Id, o1Id);
-	ASSERT_EQ(collisions[2].o2Id, o2Id);
-
-	ASSERT_EQ(collisions[0].o1N.x, 1);
-	ASSERT_EQ(collisions[0].o1N.y, 0);
-	ASSERT_EQ(collisions[0].o2N.x, 0);
-	ASSERT_EQ(collisions[0].o2N.y, 1);
-
-	ASSERT_EQ(collisions[1].o1N.x, 0);
-	ASSERT_EQ(collisions[1].o1N.y, -1);
-	ASSERT_EQ(collisions[1].o2N.x, 0);
-	ASSERT_EQ(collisions[1].o2N.y, 1);
-
-	ASSERT_EQ(collisions[2].o1N.x, -1);
-	ASSERT_EQ(collisions[2].o1N.y, 0);
-	ASSERT_EQ(collisions[2].o2N.x, 0);
-	ASSERT_EQ(collisions[2].o2N.y, 1);
+	bool hasCollision = false;
+	detector.checkCollisions(objs, [&hasCollision](const GameObject& o1, const GameObject& o2) {
+		hasCollision = true;
+	});
+	ASSERT_TRUE(hasCollision);
 }
 
 TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingCorners) {
@@ -55,46 +31,13 @@ TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsWithOneTouchingCorners) {
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
-	Segmenter seg(3);
-	CollisionDetector detector(seg);
+	CollisionDetector detector;
 
-	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
-
-	// We expect 4 collisions
-	ASSERT_EQ(collisions.size(), 4);
-	ASSERT_TRUE(collisions[0].hasCollision);
-	ASSERT_TRUE(collisions[1].hasCollision);
-	ASSERT_TRUE(collisions[2].hasCollision);
-	ASSERT_TRUE(collisions[3].hasCollision);
-
-	ASSERT_EQ(collisions[0].o1Id, o1Id);
-	ASSERT_EQ(collisions[0].o2Id, o2Id);
-	ASSERT_EQ(collisions[1].o1Id, o1Id);
-	ASSERT_EQ(collisions[1].o2Id, o2Id);
-	ASSERT_EQ(collisions[2].o1Id, o1Id);
-	ASSERT_EQ(collisions[2].o2Id, o2Id);
-	ASSERT_EQ(collisions[3].o1Id, o1Id);
-	ASSERT_EQ(collisions[3].o2Id, o2Id);
-
-	ASSERT_EQ(collisions[0].o1N.x, 1);
-	ASSERT_EQ(collisions[0].o1N.y, 0);
-	ASSERT_EQ(collisions[0].o2N.x, 0);
-	ASSERT_EQ(collisions[0].o2N.y, 1);
-
-	ASSERT_EQ(collisions[1].o1N.x, 1);
-	ASSERT_EQ(collisions[1].o1N.y, 0);
-	ASSERT_EQ(collisions[1].o2N.x, -1);
-	ASSERT_EQ(collisions[1].o2N.y, 0);
-
-	ASSERT_EQ(collisions[2].o1N.x, 0);
-	ASSERT_EQ(collisions[2].o1N.y, -1);
-	ASSERT_EQ(collisions[2].o2N.x, 0);
-	ASSERT_EQ(collisions[2].o2N.y, 1);
-
-	ASSERT_EQ(collisions[3].o1N.x, 0);
-	ASSERT_EQ(collisions[3].o1N.y, -1);
-	ASSERT_EQ(collisions[3].o2N.x, -1);
-	ASSERT_EQ(collisions[3].o2N.y, 0);
+	bool hasCollision = false;
+	detector.checkCollisions(objs, [&hasCollision](const GameObject& o1, const GameObject& o2) {
+		hasCollision = true;
+		});
+	ASSERT_TRUE(hasCollision);
 }
 
 TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsFoundBug) {
@@ -105,11 +48,13 @@ TEST(CollisionDetectorTest, CollisionBetweenTwoObjectsFoundBug) {
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
 	Segmenter seg(3);
-	CollisionDetector detector(seg);
+	CollisionDetector detector;
 
-	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
-
-	ASSERT_EQ(collisions.size(), 0);
+	bool hasCollision = false;
+	detector.checkCollisions(objs, [&hasCollision](const GameObject& o1, const GameObject& o2) {
+		hasCollision = true;
+		});
+	ASSERT_FALSE(hasCollision);
 }
 
 TEST(CollisionDetectorTest, SixSideCollisions) {
@@ -120,44 +65,11 @@ TEST(CollisionDetectorTest, SixSideCollisions) {
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
 	Segmenter seg(3);
-	CollisionDetector detector(seg);
+	CollisionDetector detector;
 
-	std::vector<CollisionData> collisions = detector.checkCollisions(objs);
-
-	ASSERT_EQ(collisions.size(), 7);
-
-	ASSERT_EQ(collisions[0].o1N.x, 0);
-	ASSERT_EQ(collisions[0].o1N.y, 1);
-	ASSERT_EQ(collisions[0].o2N.x, 0);
-	ASSERT_EQ(collisions[0].o2N.y, 1);
-
-	ASSERT_EQ(collisions[1].o1N.x, 0);
-	ASSERT_EQ(collisions[1].o1N.y, 1);
-	ASSERT_EQ(collisions[1].o2N.x, -1);
-	ASSERT_EQ(collisions[1].o2N.y, 0);
-
-	ASSERT_EQ(collisions[2].o1N.x, 1);
-	ASSERT_EQ(collisions[2].o1N.y, 0);
-	ASSERT_EQ(collisions[2].o2N.x, 0);
-	ASSERT_EQ(collisions[2].o2N.y, 1);
-
-	ASSERT_EQ(collisions[3].o1N.x, 1);
-	ASSERT_EQ(collisions[3].o1N.y, 0);
-	ASSERT_EQ(collisions[3].o2N.x, 0);
-	ASSERT_EQ(collisions[3].o2N.y, -1);
-
-	ASSERT_EQ(collisions[4].o1N.x, 1);
-	ASSERT_EQ(collisions[4].o1N.y, 0);
-	ASSERT_EQ(collisions[4].o2N.x, -1);
-	ASSERT_EQ(collisions[4].o2N.y, 0);
-
-	ASSERT_EQ(collisions[5].o1N.x, 0);
-	ASSERT_EQ(collisions[5].o1N.y, -1);
-	ASSERT_EQ(collisions[5].o2N.x, 0);
-	ASSERT_EQ(collisions[5].o2N.y, -1);
-
-	ASSERT_EQ(collisions[6].o1N.x, 0);
-	ASSERT_EQ(collisions[6].o1N.y, -1);
-	ASSERT_EQ(collisions[6].o2N.x, -1);
-	ASSERT_EQ(collisions[6].o2N.y, 0);
+	bool hasCollision = false;
+	detector.checkCollisions(objs, [&hasCollision](const GameObject& o1, const GameObject& o2) {
+		hasCollision = true;
+	});
+	ASSERT_TRUE(hasCollision);
 }

@@ -1,33 +1,20 @@
 #include "CollisionDetector.h"
 
-CollisionDetector::CollisionDetector(const Segmenter& s): segmenter(s)
+void CollisionDetector::checkCollisions(const std::vector<GameObject>& objs, CollisionCallback cb) const
 {
-}
-
-std::vector<CollisionData> CollisionDetector::checkCollisions(const std::vector<GameObject>& objs) const
-{
-	std::vector<CollisionData> collisions;
-
 	for (size_t i = 0; i < objs.size(); ++i) {
 		const GameObject& o1 = objs[i];
-
+		const BoundingBox b1 = o1.getRect().toBoundingBox();
+		
 		for (size_t j = i + 1 /* don't cross check objects */; j < objs.size(); ++j) {
 			const GameObject& o2 = objs[j];
-
-			std::vector<Segment> o1Segments = segmenter.segment(o1.getRect().toWorldSpace());
-			std::vector<Segment> o2Segments = segmenter.segment(o2.getRect().toWorldSpace());
-
-			for (Segment& o1Seg : o1Segments) {
-				for (Segment& o2Seg : o2Segments) {
-					if (o1Seg.bb.intersects(o2Seg.bb)) {
-						collisions.push_back(CollisionData(o1.getId(), o2.getId(), o1Seg.N, o2Seg.N));
-					}
-				}
+			const BoundingBox b2 = o2.getRect().toBoundingBox();
+			
+			if (b1.intersects(b2)) {
+				cb(o1, o2);
 			}
 		}
 	}
-
-	return collisions;
 }
 
 

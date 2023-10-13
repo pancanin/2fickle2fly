@@ -77,3 +77,22 @@ std::vector<CollisionData> CollisionAggregator::aggregateMultiCollisions(const s
 	}
 	return compressedCollisions;
 }
+
+Vec2 CollisionAggregator::calculateHitNormal(const GameObject& o1, const GameObject& o2) const
+{
+	Rect r1 = o1.getRect();
+	Rect r2 = o2.getRect();
+
+	if (r1.getY() + r1.getHeight() < r2.getY()) {
+		return Vec2(0, -1);
+	}
+	else if (r1.getX() + r1.getWidth() < r2.getX()) {
+		return Vec2(1, 0);
+	}
+	else if (r2.getX() + r2.getWidth() < r1.getX()) {
+		return Vec2(-1, 0);
+	}
+	else {
+		return Vec2(0, 1);
+	}
+}

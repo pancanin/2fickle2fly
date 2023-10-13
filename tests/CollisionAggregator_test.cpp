@@ -6,64 +6,32 @@
 #include "engine/physics/collisions/CollisionData.h"
 #include "engine/physics/collisions/CollisionAggregator.h"
 
-TEST(CollisionAggregatorTest, CompactCollisionDataPerObject) {
-	std::vector<CollisionData> collisions{
-		CollisionData(1, 2, Vec2(1, 0), Vec2(0, 1)),
-		CollisionData(1, 2, Vec2(0, -1), Vec2(0, 1)),
-		CollisionData(1, 2, Vec2(-1, 0), Vec2(0, 1))
-	};
-	CollisionAggregator colAggr;
+TEST(CollisionAggregatorTest, FindHitNormalOfObjectAboveAndBelow) {
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 5, 5, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(0, 10), 10, 10, Color{});
+	CollisionAggregator aggr;
+	Vec2 n = aggr.calculateHitNormal(o1, o2);
 
-	std::vector<CollisionData> aggrcollisions = colAggr.aggregateCollisions(collisions);
+	ASSERT_EQ(n.x, 0);
+	ASSERT_EQ(n.y, -1);
 
-	ASSERT_TRUE(aggrcollisions[0].hasCollision);
-	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
-	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
+	n = aggr.calculateHitNormal(o2, o1);
 
-	ASSERT_EQ(aggrcollisions[0].o1N.x, 0);
-	ASSERT_EQ(aggrcollisions[0].o1N.y, -1);
-	ASSERT_EQ(aggrcollisions[0].o2N.x, 0);
-	ASSERT_EQ(aggrcollisions[0].o2N.y, 1);
+	ASSERT_EQ(n.x, 0);
+	ASSERT_EQ(n.y, 1);
 }
 
-TEST(CollisionAggregatorTest, CompactCollisionDataPerObjectAtCorner) {
-	std::vector<CollisionData> collisions{
-		CollisionData(1, 2, Vec2(1, 0), Vec2(0, 1)),
-		CollisionData(1, 2, Vec2(1, 0), Vec2(-1, 0)),
-		CollisionData(1, 2, Vec2(0, -1), Vec2(0, 1)),
-		CollisionData(1, 2, Vec2(0, -1), Vec2(-1, 0))
-	};
-	CollisionAggregator colAggr;
+TEST(CollisionAggregatorTest, FindHitNormalOfObjectSideways) {
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 5, 5, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(10, 0), 10, 10, Color{});
+	CollisionAggregator aggr;
+	Vec2 n = aggr.calculateHitNormal(o1, o2);
 
-	std::vector<CollisionData> aggrcollisions = colAggr.aggregateCollisions(collisions);
+	ASSERT_EQ(n.x, 1);
+	ASSERT_EQ(n.y, 0);
 
-	ASSERT_TRUE(aggrcollisions[0].hasCollision);
-	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
-	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
+	n = aggr.calculateHitNormal(o2, o1);
 
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.x, 0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.y, -0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.x, -0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.y, 0.707107f);
-}
-
-TEST(CollisionAggregatorTest, CompactObjectCollisions) {
-	std::vector<CollisionData> collisions{
-		CollisionData(1, 2, Vec2(1, 0), Vec2(1, 1)),
-		CollisionData(1, 3, Vec2(1, 0), Vec2(1, -1))
-	};
-	CollisionAggregator colAggr;
-
-	std::vector<CollisionData> aggrcollisions = colAggr.aggregateMultiCollisions(collisions);
-
-	ASSERT_EQ(aggrcollisions.size(), 1);
-
-	ASSERT_TRUE(aggrcollisions[0].hasCollision);
-	ASSERT_EQ(aggrcollisions[0].o1Id, 1);
-	ASSERT_EQ(aggrcollisions[0].o2Id, 2);
-
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.x, 0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o1N.y, -0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.x, -0.707107f);
-	ASSERT_FLOAT_EQ(aggrcollisions[0].o2N.y, 0.707107f);
+	ASSERT_EQ(n.x, -1);
+	ASSERT_EQ(n.y, 0);
 }

@@ -4,6 +4,8 @@
 #include <vector>
 
 #include "engine/physics/collisions/CollisionData.h"
+#include "engine/drawables/GameObject.h"
+#include "engine/math/Vec2.h"
 
 class CollisionAggregator {
 public:
@@ -30,6 +32,8 @@ public:
 	/// When an object is in collision with more than one object, zip the collision and compute geometric normal.
 	/// </summary>
 	std::vector<CollisionData> aggregateMultiCollisions(const std::vector<CollisionData>&) const;
+
+	Vec2 calculateHitNormal(const GameObject& o1, const GameObject& o2) const;
 };
 
 // TODO: For static objects, we need segments to figure out from which direction something hit it.

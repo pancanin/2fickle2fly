@@ -61,8 +61,6 @@ add_executable(${PROJECT_NAME}
     ${DIR}/engine/physics/collisions/CollisionData.cpp
     ${DIR}/engine/physics/collisions/CollisionDetector.h
     ${DIR}/engine/physics/collisions/CollisionDetector.cpp
-    ${DIR}/engine/physics/collisions/Segmenter.h
-    ${DIR}/engine/physics/collisions/Segmenter.cpp
     ${DIR}/engine/physics/collisions/CollisionAggregator.h
     ${DIR}/engine/physics/collisions/CollisionAggregator.cpp
     ${DIR}/engine/physics/collisions/CollisionResolver.h
@@ -121,13 +119,14 @@ add_executable(tests
     ${DIR}/tests/Vec2_test.cpp
     ${DIR}/engine/physics/collisions/BoundingBox.cpp
     ${DIR}/tests/BoundingBox_test.cpp
-    ${DIR}/engine/physics/collisions/Segmenter.cpp
-    ${DIR}/tests/Segmenter_test.cpp
     ${DIR}/engine/physics/collisions/CollisionDetector.cpp
     ${DIR}/tests/CollisionDetector_test.cpp
     ${DIR}/engine/drawables/GameObject.cpp
     ${DIR}/engine/physics/collisions/CollisionAggregator.cpp
     ${DIR}/tests/CollisionAggregator_test.cpp
+
+    ${DIR}/engine/physics/collisions/CollisionResolver.cpp
+    ${DIR}/tests/CollisionResolver_test.cpp
 )
 
 target_include_directories(tests PRIVATE ${DIR})
