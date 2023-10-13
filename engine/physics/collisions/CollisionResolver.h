@@ -14,7 +14,7 @@ public:
 	void separateObjects(GameObject& o1, GameObject& o2) const;
 
 private:
-	const float resolutionSpeed = 0.3f; // The speed we move game objects away from one another so they no longer intersect.
+	const float resolutionSpeed = 0.7f; // The speed we move game objects away from one another so they no longer intersect.
 	CollisionDetector& detector;
 };
 

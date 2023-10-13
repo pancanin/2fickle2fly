@@ -64,7 +64,6 @@ TEST(CollisionDetectorTest, SixSideCollisions) {
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	std::vector<GameObject> objs{ o1, o2 };
-	Segmenter seg(3);
 	CollisionDetector detector;
 
 	bool hasCollision = false;
@@ -72,4 +71,20 @@ TEST(CollisionDetectorTest, SixSideCollisions) {
 		hasCollision = true;
 	});
 	ASSERT_TRUE(hasCollision);
+}
+
+TEST(CollisionDetectorTest, OddCaseWhichShouldNotCollide) {
+
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(200, 16.89f), 10, 10, Color{});
+	GameObject o2 = GameObjectFactory::createImmovableObject(Vec2(206, 0), 32, 16, Color{});
+	ID o1Id = o1.getId();
+	ID o2Id = o2.getId();
+	std::vector<GameObject> objs{ o1, o2 };
+	CollisionDetector detector;
+
+	bool hasCollision = false;
+	detector.checkCollisions(objs, [&hasCollision](const GameObject& o1, const GameObject& o2) {
+		hasCollision = true;
+	});
+	ASSERT_FALSE(hasCollision);
 }

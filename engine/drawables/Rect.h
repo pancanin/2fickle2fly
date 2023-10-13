@@ -38,7 +38,7 @@ struct Rect {
 	}
 
 	BoundingBox toBoundingBox() const {
-		return BoundingBox(Vec2(x, y), Vec2(x + w, y + h));
+		return BoundingBox(Vec2(x, -y - h), Vec2(x + w, -y));
 	}
 
 	struct Factory {
