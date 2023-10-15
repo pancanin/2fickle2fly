@@ -15,7 +15,7 @@ struct GameObject {
 	ID getId() const;
 	void setId(ID id);
 
-	Rect getRect() const;
+	const Rect& getRect() const;
 
 	void updatePosition();
 	void bounceOff(const CollisionData&);

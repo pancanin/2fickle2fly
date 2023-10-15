@@ -11,6 +11,7 @@ typedef std::function<void(const GameObject&, const GameObject&)> CollisionCallb
 class CollisionDetector {
 public:
 	void checkCollisions(const std::vector<GameObject>&, CollisionCallback) const;
+	bool checkCollisions(const GameObject&, const std::vector<GameObject>&) const;
 };
 
 #endif // !ENGINE_PHYSICS_COLLISIONS_COLLISION_DETECTOR_H

@@ -18,7 +18,7 @@ void GameObject::setId(ID id)
 	this->id = id;
 }
 
-Rect GameObject::getRect() const
+const Rect& GameObject::getRect() const
 {
 	return rect;
 }

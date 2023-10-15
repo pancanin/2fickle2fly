@@ -21,7 +21,7 @@ void Breakout::onStart()
 
   auto ballDim = 10;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 2.0f));
 
   buildSideWalls();
 
@@ -107,7 +107,7 @@ void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
   if (cQueried.hasCollision) {
     GameObject& ball = objects.get(cQueried.o1Id);
     GameObject& other = objects.get(cQueried.o2Id);
-    r.separateObjects(ball, other);
+    r.separateObjects(ball, objects.elements());
   }
 
   /*cQueried = c.query(paddleId);

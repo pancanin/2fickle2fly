@@ -11,17 +11,18 @@ TEST(CollisionResolverTest, SeparatingTwoObjectsHittingOnEdge) {
 	ID o2Id = o2.getId();
 	CollisionDetector detector;
 	CollisionResolver r(detector);
+	std::vector<GameObject> objs = { o1, o2 };
 	bool colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 	});
 
 	ASSERT_TRUE(colliding);
 
-	r.separateObjects(o1, o2);
+	r.separateObjects(o1, objs);
 
 	colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 	});
 
@@ -35,16 +36,16 @@ TEST(CollisionResolverTest, SeparatingTwoObjectsHittingSideways) {
 	ID o2Id = o2.getId();
 	CollisionDetector detector;
 	CollisionResolver r(detector);
-
+	std::vector<GameObject> objs = { o1, o2 };
 	bool colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 	});
 	ASSERT_TRUE(colliding);
-	r.separateObjects(o1, o2);
+	r.separateObjects(o1, objs);
 
 	colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 		});
 
@@ -58,16 +59,16 @@ TEST(CollisionResolverTest, SeparatingTwoMovingObjectsHitting) {
 	ID o2Id = o2.getId();
 	CollisionDetector detector;
 	CollisionResolver r(detector);
-
+	std::vector<GameObject> objs = { o1, o2 };
 	bool colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 		});
 	ASSERT_TRUE(colliding);
-	r.separateObjects(o1, o2);
+	r.separateObjects(o1, objs);
 
 	colliding = false;
-	detector.checkCollisions({ o1, o2 }, [&colliding](const GameObject& o1, const GameObject& o2) {
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
 		colliding = true;
 		});
 

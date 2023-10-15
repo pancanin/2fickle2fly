@@ -4,6 +4,7 @@ void CollisionDetector::checkCollisions(const std::vector<GameObject>& objs, Col
 {
 	for (size_t i = 0; i < objs.size(); ++i) {
 		const GameObject& o1 = objs[i];
+		// TODO: I think the problem is here: we are returning a copy and after each checkCollision there are changes with the objects.
 		const BoundingBox b1 = o1.getRect().toBoundingBox();
 		
 		for (size_t j = i + 1 /* don't cross check objects */; j < objs.size(); ++j) {
@@ -17,4 +18,15 @@ void CollisionDetector::checkCollisions(const std::vector<GameObject>& objs, Col
 	}
 }
 
+bool CollisionDetector::checkCollisions(const GameObject& o1, const std::vector<GameObject>& objs) const
+{
+	bool hasCollidedWithO1 = false;
 
+	checkCollisions(objs, [&hasCollidedWithO1, &o1](const GameObject& ob1, const GameObject& ob2) {
+		if (ob1.getId() == o1.getId() || ob2.getId() == o1.getId()) {
+			hasCollidedWithO1 = true;
+		}
+	});
+
+	return hasCollidedWithO1;
+}
