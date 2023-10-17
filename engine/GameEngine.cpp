@@ -4,10 +4,6 @@
 
 #include "osplatform/Time.h"
 #include "osplatform/ThreadUtils.h"
-#include "engine/physics/collisions/CollisionDetector.h"
-#include "engine/physics/collisions/CollisionAggregator.h"
-#include "engine/physics/collisions/CollisionResolver.h"
-#include "engine/physics/collisions/Segmenter.h"
 
 #define MILLIS_IN_SECOND 1000
 
@@ -33,10 +29,6 @@ void GameEngine::start() {
   onStart();
 	setKeyBindings(ee);
 	Time stopwatch;
-	Segmenter seg(3); // the segment size is dependent on the speed of an object, so maybe this needs change.
-	CollisionDetector detector;
-	CollisionAggregator aggre;
-	CollisionResolver collisionResolver(detector);
 
 	while (!stop) {
 		stopwatch.getElapsed();
@@ -50,9 +42,14 @@ void GameEngine::start() {
 		onUpdate();
 
 		// Collisions
-		detector.checkCollisions(objects.elements(), [this, &collisionResolver, &aggre](const GameObject& o1, const GameObject& o2) {
-			collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements());
-			collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
+		detector.checkCollisions(objects.elements(), [this](const GameObject& o1, const GameObject& o2) {
+			if ((collisionResolver.shouldSeparate(o1.getId()) && collisionResolver.shouldSeparate(o2.getId()))) {
+				collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
+			}
+			else {
+				collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements());
+				collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
+			}
 			Vec2 o1N = aggre.calculateHitNormal(o1, o2);
 			Vec2 o2N = aggre.calculateHitNormal(o2, o1);
 			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);

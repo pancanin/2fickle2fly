@@ -18,10 +18,11 @@ void Breakout::onStart()
   Vec2 initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
 
 	paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
-
+  collisionResolver.addObjectForSeparation(paddleId);
   auto ballDim = 10;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 2.0f));
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
+  collisionResolver.addObjectForSeparation(ballId);
 
   buildSideWalls();
 

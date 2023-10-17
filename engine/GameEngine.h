@@ -13,6 +13,9 @@
 #include "engine/storage/PrimitivesStorage.h"
 #include "engine/input/EventEmitter.h"
 #include "engine/physics/collisions/CollisionData.h"
+#include "engine/physics/collisions/CollisionDetector.h"
+#include "engine/physics/collisions/CollisionAggregator.h"
+#include "engine/physics/collisions/CollisionResolver.h"
 
 class CollisionResolver;
 class CollisionDetector;
@@ -55,6 +58,10 @@ private:
 	uint32_t frameDurationMs;
 	uint32_t width;
 	uint32_t height;
+	CollisionDetector detector;
+	CollisionAggregator aggre;
+protected:
+	CollisionResolver collisionResolver;
 };
 
 #endif /* ENGINEV2_GAMEENGINE_H_ */
