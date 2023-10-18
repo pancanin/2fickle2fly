@@ -74,3 +74,26 @@ TEST(CollisionResolverTest, SeparatingTwoMovingObjectsHitting) {
 
 	ASSERT_FALSE(colliding);
 }
+
+TEST(CollisionResolverTest, SeparatingNestedObjects) {
+	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 50, 30, Color{});
+	GameObject o2 = GameObjectFactory::createObject(Vec2(5, 5), 15, 15, Color{}, 6.0f, Vec2(0, 1));
+	ID o1Id = o1.getId();
+	ID o2Id = o2.getId();
+	CollisionDetector detector;
+	CollisionResolver r(detector);
+	std::vector<GameObject> objs = { o1, o2 };
+	bool colliding = false;
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
+		colliding = true;
+		});
+	ASSERT_TRUE(colliding);
+	r.separateObjects(objs[1], objs);
+
+	colliding = false;
+	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
+		colliding = true;
+		});
+
+	ASSERT_FALSE(colliding);
+}

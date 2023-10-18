@@ -7,7 +7,6 @@
 #include "games/breakout/levels/LevelBuilder.h"
 
 class EventEmitter;
-struct GameObject;
 
 class Breakout : public GameEngine {
 public:
@@ -17,14 +16,6 @@ private:
 	void setKeyBindings(EventEmitter&) override;
 	void onUpdate() override;
 	void handleCollision(const CollisionData&) override;
-
-	/// <summary>
-	/// Might be not needed in the future if we have a flag on which objects we need to unstuck.
-	/// Generally objects that are not under user control and have > 0 speed need to get unstuck.
-	/// This method allows the client to decide which objects needs unstucking.
-	/// </summary>
-	void resolveCollision(CollisionResolver&, const CollisionData&) override;
-
 	void buildSideWalls();
 
 private:
@@ -35,6 +26,8 @@ private:
 	uint32_t brickWidth = 32;
 	uint32_t brickHeight = 16;
 	float paddleSpeed = 5.0f;
+	uint32_t paddleWidth = 128;
+	uint32_t paddleHeight = 32;
 
 	bool hasPaddleCollided = false; // used for disabling user-initiated movement of the paddle while collided with a non-ball.
 	Vec2 paddleObstacleN; // The normal of the object which collided with the paddle. Need this to decide whether to move in a direction. Cleared in onUpdate.

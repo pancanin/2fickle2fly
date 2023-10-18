@@ -32,7 +32,7 @@ void GameObject::updatePosition()
 
 void GameObject::bounceOff(const CollisionData& c)
 {
-	this->steer(this->direction.getWorldSpace().reflect(c.o2N));
+	this->setDirection(this->direction.getWorldSpace().reflect(c.o2N));
 }
 
 void GameObject::setSpeed(float v)
@@ -40,9 +40,19 @@ void GameObject::setSpeed(float v)
 	this->speed = v;
 }
 
-void GameObject::steer(const Vec2& newDir)
+void GameObject::setDirection(const Vec2& newDir)
 {
 	// The code below is for smoother movement. It is still not great because it does not take into account the current speed.
 	// this->direction = this->direction + newDir;
 	this->direction = Direction(newDir);
+}
+
+float GameObject::getSpeed() const
+{
+	return speed;
+}
+
+Direction GameObject::getDirection() const
+{
+	return direction;
 }

@@ -11,7 +11,7 @@
 #define BRICKS_FIELD_HEIGHT 6
 #define BRICK_WIDTH 32
 #define BRICK_HEIGHT 16 // These all properties should be in a config file probably. But as the levels are not dynamic I leave them here.
-#define FIELD_OFFSET_X 50
+#define FIELD_OFFSET_X 135
 #define FIELD_OFFSET_Y 80
 #define PADDING 2
 

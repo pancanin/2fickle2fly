@@ -18,8 +18,6 @@ void Breakout::onStart()
 	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
   collisionResolver.addObjectForSeparation(ballId);
 
-  uint32_t paddleWidth = 128;
-  uint32_t paddleHeight = 32;
   Vec2 initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
 
   paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
@@ -44,29 +42,28 @@ void Breakout::onStart()
 
 void Breakout::setKeyBindings(EventEmitter& ee)
 {
-  // Hmmm, don' we have to get the paddle in the lambda itself?
   GameObject& paddle = objects.get(paddleId);
   ee.listen(Key::LEFT, ActionType::KEYDOWN, [&paddle, this](Event e) {
     Vec2 actionDir = Vec2(-1.0f, 0.0f);
     if (!canMoveInDir(actionDir)) { return; }
-    paddle.steer(Vec2(-1.0f, 0.0f));
+    paddle.setDirection(Vec2(-1.0f, 0.0f));
     paddle.setSpeed(paddleSpeed);
   });
   ee.listen(Key::RIGHT, ActionType::KEYDOWN, [&paddle, this](Event e) {
     Vec2 actionDir = Vec2(1.0f, 0.0f);
     if (!canMoveInDir(actionDir)) { return; }
-    paddle.steer(Vec2(1.0f, 0.0f));
+    paddle.setDirection(Vec2(1.0f, 0.0f));
     paddle.setSpeed(paddleSpeed);
   });
 
   GameObject& ball = objects.get(ballId);
   ee.listen(Key::SPACE, ActionType::KEYDOWN, [&ball](Event e) {
-    ball.steer(Vec2(1.0f, 1.0f));
+    ball.setDirection(Vec2(1.0f, 1.0f));
   });
 
   auto movementKeysUpHandler = [&paddle, this](Event e) {
     paddle.setSpeed(0.0f);
-    paddle.steer(Vec2(0.0f, 0.0f));
+    paddle.setDirection(Vec2(0.0f, 0.0f));
   };
   ee.listen(Key::LEFT, ActionType::KEYUP, movementKeysUpHandler);
   ee.listen(Key::RIGHT, ActionType::KEYUP, movementKeysUpHandler);
@@ -91,25 +88,30 @@ void Breakout::handleCollision(const CollisionData& collision)
   c = collision.query(paddleId);
   if (c.hasCollision) {
     auto& paddle = objects.get(c.o1Id);
-    paddle.setSpeed(0.0);
 
     if (ballId != c.o2Id) { // It is not a collision with the ball
       hasPaddleCollided = true;
+      paddle.setSpeed(0.0);
     }
     else {
+      // Ball collision with paddle
       hasPaddleCollided = false;
+      GameObject& ball = objects.get(c.o2Id);
+      float d = ball.getRect().getX() - paddle.getRect().getX();
+      Vec2 bounceAngle;
+      if (d < 32) {
+        bounceAngle = Vec2(-0.1f, 1.0f);
+      }
+      else if (d < 96) {
+        bounceAngle = Vec2(0.0f, 1.0f);
+      }
+      else {
+        bounceAngle = Vec2(0.1f, 1.0f);
+      }
+      Vec2 newBallDir = (ball.getDirection().getWorldSpace() + bounceAngle).normalized();
+      ball.setDirection(newBallDir);
     }
     paddleObstacleN = c.o2N;
-  }
-}
-
-void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
-{
-  CollisionData cQueried = c.query(ballId);
-  if (cQueried.hasCollision) {
-    GameObject& ball = objects.get(cQueried.o1Id);
-    GameObject& other = objects.get(cQueried.o2Id);
-    r.separateObjects(ball, objects.elements());
   }
 }
 

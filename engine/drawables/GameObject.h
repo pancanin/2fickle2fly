@@ -25,8 +25,11 @@ struct GameObject {
 	/// We might need something more real-world later on.
 	/// </summary>
 	void setSpeed(float);
-	void steer(const Vec2& newDir);
-//private:
+	void setDirection(const Vec2& newDir);
+
+	float getSpeed() const;
+	Direction getDirection() const;
+private:
 	ID id;
 	Rect rect;
 	float speed; // current speed pixels per second
