@@ -6,7 +6,7 @@
 
 TEST(CollisionResolverTest, SeparatingTwoObjectsHittingOnEdge) {
 	GameObject o1 = GameObjectFactory::createImmovableObject(Vec2(0, 0), 20, 10);
-	GameObject o2 = GameObjectFactory::createObject(Vec2(18, 8), 20, 10, Color{}, 4.0f, Vec2(0, 1));
+	GameObject o2 = GameObjectFactory::createObject(Vec2(18, 8), 20, 10, Color{}, 4.0f, Vec2(-1, -1));
 	ID o1Id = o1.getId();
 	ID o2Id = o2.getId();
 	CollisionDetector detector;
@@ -19,7 +19,7 @@ TEST(CollisionResolverTest, SeparatingTwoObjectsHittingOnEdge) {
 
 	ASSERT_TRUE(colliding);
 
-	r.separateObjects(o1, objs);
+	r.separateObjects(objs[1], objs);
 
 	colliding = false;
 	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
@@ -42,7 +42,7 @@ TEST(CollisionResolverTest, SeparatingTwoObjectsHittingSideways) {
 		colliding = true;
 	});
 	ASSERT_TRUE(colliding);
-	r.separateObjects(o1, objs);
+	r.separateObjects(objs[1], objs);
 
 	colliding = false;
 	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {
@@ -65,7 +65,7 @@ TEST(CollisionResolverTest, SeparatingTwoMovingObjectsHitting) {
 		colliding = true;
 		});
 	ASSERT_TRUE(colliding);
-	r.separateObjects(o1, objs);
+	r.separateObjects(objs[0], objs);
 
 	colliding = false;
 	detector.checkCollisions(objs, [&colliding](const GameObject& o1, const GameObject& o2) {

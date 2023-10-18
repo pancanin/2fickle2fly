@@ -118,17 +118,11 @@ void Breakout::buildSideWalls()
   Color sidewallColor{ 128, 128, 128, 255 };
 
   // Upper wall
-  for (size_t i = padding; i < getWindowWidth(); i += padding + brickWidth) {
-    add(GameObjectFactory::createImmovableObject(Vec2(i, 0), brickWidth, brickHeight, sidewallColor));
-  }
+  add(GameObjectFactory::createImmovableObject(Vec2(0, 0), getWindowWidth(), brickHeight, sidewallColor));
 
   // Left wall
-  for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    add(GameObjectFactory::createImmovableObject(Vec2(padding, i), brickHeight, brickWidth, sidewallColor));
-  }
+  add(GameObjectFactory::createImmovableObject(Vec2(0, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
 
   // Right wall
-  for (size_t i = brickHeight + padding; i < getWindowHeight(); i += padding + brickWidth) {
-    add(GameObjectFactory::createImmovableObject(Vec2(getWindowWidth() - brickHeight - padding, i), brickHeight, brickWidth, sidewallColor));
-  }
+  add(GameObjectFactory::createImmovableObject(Vec2(getWindowWidth() - brickHeight - padding, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
 }
