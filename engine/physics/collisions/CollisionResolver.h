@@ -14,7 +14,6 @@ public:
 	/// Nudge game object o1 away from o2 until they are no longer intersecting.
 	/// </summary>
 	void separateObjects(GameObject& o1, std::vector<GameObject>&) const;
-	void separateObjects(GameObject& o1, GameObject& o2) const;
 	void addObjectForSeparation(ID id);
 	bool shouldSeparate(ID id);
 private:

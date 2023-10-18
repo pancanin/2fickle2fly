@@ -22,15 +22,15 @@ void EventEmitter::poll()
 					if (binding.key == previousKey) {
 						// The key up action is after a key down, no interleaving actions happened.
 						binding.listener(Event{});
+						previousKey = static_cast<Key>(e.key.keysym.sym);
 					}
 				}
 				else {
 					binding.listener(Event{});
+					previousKey = static_cast<Key>(e.key.keysym.sym);
 				}
 			}
 		}
-
-		previousKey = static_cast<Key>(e.key.keysym.sym);
 	}
 }
 

@@ -30,6 +30,10 @@ public:
 protected:
 	
 	/// <summary>
+	/// Important: Add objects that should react first on collision before other objects.
+	/// For example, if we have a paddle and a ball, we want to separate the ball first.
+	/// This is a temporary measure.
+	/// 
 	/// Adds a GameObject to storage and assigns it an ID.
 	/// </summary>
 	/// <param name="obj">Temporary GameObject used for initialising the 'permanent' GameObject that will 'live' in storage.</param>

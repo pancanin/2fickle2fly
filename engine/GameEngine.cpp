@@ -43,11 +43,10 @@ void GameEngine::start() {
 
 		// Collisions
 		detector.checkCollisions(objects.elements(), [this](const GameObject& o1, const GameObject& o2) {
-			if ((collisionResolver.shouldSeparate(o1.getId()) && collisionResolver.shouldSeparate(o2.getId()))) {
-				collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
+			if ((collisionResolver.shouldSeparate(o1.getId()))) {
+				collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements()); // Const cast smell
 			}
-			else {
-				collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements());
+			if (collisionResolver.shouldSeparate(o2.getId())) {
 				collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
 			}
 			Vec2 o1N = aggre.calculateHitNormal(o1, o2);

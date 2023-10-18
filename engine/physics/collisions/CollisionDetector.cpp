@@ -4,9 +4,6 @@ void CollisionDetector::checkCollisions(const std::vector<GameObject>& objs, Col
 {
 	for (size_t i = 0; i < objs.size(); ++i) {
 		const GameObject& o1 = objs[i];
-		// TODO: I think the problem is here: we are returning a copy and after each checkCollision there are changes with the objects.
-		// Also, there are objects that are used controlled which should not be 'separated'.
-		// All objects that bounce off stuff should be separated
 		const BoundingBox& b1 = o1.getRect().toBoundingBox();
 		
 		for (size_t j = i + 1 /* don't cross check objects */; j < objs.size(); ++j) {
@@ -31,9 +28,4 @@ bool CollisionDetector::checkCollisions(const GameObject& o1, const std::vector<
 	});
 
 	return hasCollidedWithO1;
-}
-
-bool CollisionDetector::checkCollisions(const GameObject& o1, const GameObject& o2) const
-{
-	return checkCollisions(o1, { o2 });
 }

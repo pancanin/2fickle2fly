@@ -13,26 +13,27 @@ void Breakout::onStart()
 {
   objects.init(30);
 
-  uint32_t paddleWidth = 128;
-  uint32_t paddleHeight = 32;
-  Vec2 initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
-
-	paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
-  collisionResolver.addObjectForSeparation(paddleId);
   auto ballDim = 10;
   auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
 	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
   collisionResolver.addObjectForSeparation(ballId);
 
+  uint32_t paddleWidth = 128;
+  uint32_t paddleHeight = 32;
+  Vec2 initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
+
+  paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
+  collisionResolver.addObjectForSeparation(paddleId);
+
   buildSideWalls();
 
   char level1[BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH] = {
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
-    {' ',' ',' ',' ','1',' ',' ',' ',' ',' '},
+    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
   };
   levelBuilder.addLevel(level1);
   auto objs = levelBuilder.build(0);
@@ -110,14 +111,6 @@ void Breakout::resolveCollision(CollisionResolver& r, const CollisionData& c)
     GameObject& other = objects.get(cQueried.o2Id);
     r.separateObjects(ball, objects.elements());
   }
-
-  /*cQueried = c.query(paddleId);
-  if (cQueried.hasCollision) {
-    GameObject& paddle = objects.get(cQueried.o1Id);
-    GameObject& other = objects.get(cQueried.o2Id);
-    paddle.direction = Direction(-paddle.direction.getWorldSpace());
-    r.separateObjects(paddle, other);
-  }*/
 }
 
 void Breakout::buildSideWalls()
