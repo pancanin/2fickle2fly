@@ -13,12 +13,11 @@ void Breakout::onStart()
 {
   objects.init(30);
 
-  auto ballDim = 10;
-  auto initBallPos = Vec2(getWindowWidth() / 2, getWindowHeight() / 2);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, 4.0f));
+  uint32_t ballDim = 10;
+  initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
+  initBallPos = Vec2(initialPaddlePos.x, initialPaddlePos.y - ballDim);
+	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, ballSpeed));
   collisionResolver.addObjectForSeparation(ballId);
-
-  Vec2 initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
 
   paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
   collisionResolver.addObjectForSeparation(paddleId);
@@ -58,8 +57,9 @@ void Breakout::setKeyBindings(EventEmitter& ee)
   });
 
   GameObject& ball = objects.get(ballId);
-  ee.listen(Key::SPACE, ActionType::KEYDOWN, [&ball](Event e) {
+  ee.listen(Key::SPACE, ActionType::KEYDOWN, [&ball, this](Event e) {
     ball.setDirection(Vec2(1.0f, 1.0f));
+    ball.setSpeed(ballSpeed);
   });
 
   auto movementKeysUpHandler = [&paddle, this](Event e) {
@@ -73,6 +73,24 @@ void Breakout::setKeyBindings(EventEmitter& ee)
 void Breakout::onUpdate()
 {
   paddleObstacleN = Vec2();
+
+  if (state == GameState::READY) {
+    GameObject& ball = objects.get(ballId);
+
+    // The ball flew off the bottom edge of the screen
+    if (ball.getRect().getY() > getWindowHeight()) {
+      lives--;
+      std::cout << "You are left with " << lives << " lives\n";
+      ball.setSpeed(0.0f);
+      ball.setPosition(initBallPos);
+      GameObject& paddle = objects.get(paddleId);
+      paddle.setPosition(initialPaddlePos);
+
+      if (lives == 0) {
+        state = GameState::GAME_OVER;
+      }
+    }
+  }
 }
 
 void Breakout::handleCollision(const CollisionData& collision)

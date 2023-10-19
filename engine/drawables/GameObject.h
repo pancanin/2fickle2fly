@@ -18,6 +18,7 @@ struct GameObject {
 	const Rect& getRect() const;
 
 	void updatePosition();
+	void setPosition(const Vec2&);
 	void bounceOff(const CollisionData&);
 
 	/// <summary>

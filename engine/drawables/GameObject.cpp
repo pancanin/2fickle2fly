@@ -30,6 +30,11 @@ void GameObject::updatePosition()
  	this->rect.updatePosition(newPos);
 }
 
+void GameObject::setPosition(const Vec2& p)
+{
+	this->rect.updatePosition(p);
+}
+
 void GameObject::bounceOff(const CollisionData& c)
 {
 	this->setDirection(this->direction.getWorldSpace().reflect(c.o2N));
