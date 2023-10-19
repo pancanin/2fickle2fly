@@ -36,7 +36,8 @@ void Breakout::onStart()
   levelBuilder.addLevel(level1);
   auto objs = levelBuilder.build(0);
   for (auto& o : objs) {
-    add(o);
+    ID oId = add(o);
+    bricks.insert(oId);
   }
 }
 
@@ -82,6 +83,12 @@ void Breakout::handleCollision(const CollisionData& collision)
     GameObject& ball = objects.get(c.o1Id);
     
     ball.bounceOff(c);
+
+    if (bricks.find(c.o2Id) != bricks.end()) {
+      // We hit a brick, destroy it.
+      bricks.erase(c.o2Id);
+      objects.remove(c.o2Id);
+    }
   }
 
   // Handle paddle collisions
@@ -99,22 +106,24 @@ void Breakout::handleCollision(const CollisionData& collision)
       GameObject& ball = objects.get(c.o2Id);
       float d = ball.getRect().getX() - paddle.getRect().getX();
 
-      if (d < 32) {
-        Vec2 rightN = Vec2(1.0f, 0.0f);
-        Vec2 ballDir = ball.getDirection().getWorldSpace();
-        float sameDir = rightN.dot(ballDir);
-        if (sameDir >= 0.0f) {
-          // The ball goes to the left, so bounce it back in the opposite direction.
-          ball.setDirection(-ballDir);
+      if (ball.getRect().getY() + ball.getRect().getHeight() < paddle.getRect().getY()) {
+        if (d < 32) {
+          Vec2 rightN = Vec2(1.0f, 0.0f);
+          Vec2 ballDir = ball.getDirection().getWorldSpace();
+          float sameDir = rightN.dot(ballDir);
+          if (sameDir >= 0.0f) {
+            // The ball goes to the left, so bounce it back in the opposite direction.
+            ball.setDirection(-ballDir);
+          }
         }
-      }
-      else if (d >= 96) {
-        Vec2 leftN = Vec2(-1.0f, 0.0f);
-        Vec2 ballDir = ball.getDirection().getWorldSpace();
-        float sameDir = leftN.dot(ballDir);
-        if (sameDir >= 0.0f) {
-          // The ball goes to the left, so bounce it back in the opposite direction.
-          ball.setDirection(-ballDir);
+        else if (d >= 96) {
+          Vec2 leftN = Vec2(-1.0f, 0.0f);
+          Vec2 ballDir = ball.getDirection().getWorldSpace();
+          float sameDir = leftN.dot(ballDir);
+          if (sameDir >= 0.0f) {
+            // The ball goes to the left, so bounce it back in the opposite direction.
+            ball.setDirection(-ballDir);
+          }
         }
       }
     }

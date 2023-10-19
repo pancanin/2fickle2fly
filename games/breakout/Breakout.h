@@ -1,6 +1,8 @@
 #ifndef GAMES_BREAKOUT
 #define GAMES_BREAKOUT
 
+#include <unordered_set>
+
 #include "engine/GameEngine.h"
 
 #include "engine/misc/ID.h"
@@ -31,6 +33,8 @@ private:
 
 	bool hasPaddleCollided = false; // used for disabling user-initiated movement of the paddle while collided with a non-ball.
 	Vec2 paddleObstacleN; // The normal of the object which collided with the paddle. Need this to decide whether to move in a direction. Cleared in onUpdate.
+
+	std::unordered_set<ID> bricks;
 
 	inline bool canMoveInDir(const Vec2& dir) const {
 		Vec2 collideF = dir + paddleObstacleN;
