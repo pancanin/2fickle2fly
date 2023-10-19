@@ -42,6 +42,8 @@ void GameEngine::start() {
 		onUpdate();
 
 		// Collisions
+		// TODO: To get more accurate collisions, after moving the object out of other objects, go forward again in smaller steps until an object is hit.
+		// This is the first object hit.
 		detector.checkCollisions(objects.elements(), [this](const GameObject& o1, const GameObject& o2) {
 			if ((collisionResolver.shouldSeparate(o1.getId()))) {
 				collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements()); // Const cast smell

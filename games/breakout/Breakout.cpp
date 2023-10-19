@@ -98,18 +98,25 @@ void Breakout::handleCollision(const CollisionData& collision)
       hasPaddleCollided = false;
       GameObject& ball = objects.get(c.o2Id);
       float d = ball.getRect().getX() - paddle.getRect().getX();
-      Vec2 bounceAngle;
+
       if (d < 32) {
-        bounceAngle = Vec2(-0.1f, 1.0f);
+        Vec2 rightN = Vec2(1.0f, 0.0f);
+        Vec2 ballDir = ball.getDirection().getWorldSpace();
+        float sameDir = rightN.dot(ballDir);
+        if (sameDir >= 0.0f) {
+          // The ball goes to the left, so bounce it back in the opposite direction.
+          ball.setDirection(-ballDir);
+        }
       }
-      else if (d < 96) {
-        bounceAngle = Vec2(0.0f, 1.0f);
+      else if (d >= 96) {
+        Vec2 leftN = Vec2(-1.0f, 0.0f);
+        Vec2 ballDir = ball.getDirection().getWorldSpace();
+        float sameDir = leftN.dot(ballDir);
+        if (sameDir >= 0.0f) {
+          // The ball goes to the left, so bounce it back in the opposite direction.
+          ball.setDirection(-ballDir);
+        }
       }
-      else {
-        bounceAngle = Vec2(0.1f, 1.0f);
-      }
-      Vec2 newBallDir = (ball.getDirection().getWorldSpace() + bounceAngle).normalized();
-      ball.setDirection(newBallDir);
     }
     paddleObstacleN = c.o2N;
   }
