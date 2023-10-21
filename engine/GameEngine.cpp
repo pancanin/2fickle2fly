@@ -45,20 +45,27 @@ void GameEngine::start() {
 		// TODO: To get more accurate collisions, after moving the object out of other objects, go forward again in smaller steps until an object is hit.
 		// This is the first object hit.
 		detector.checkCollisions(objects.elements(), [this](const GameObject& o1, const GameObject& o2) {
-			if ((collisionResolver.shouldSeparate(o1.getId()))) {
-				collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements()); // Const cast smell
-			}
-			if (collisionResolver.shouldSeparate(o2.getId())) {
-				collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
-			}
-			Vec2 o1N = aggre.calculateHitNormal(o1, o2);
-			Vec2 o2N = aggre.calculateHitNormal(o2, o1);
-			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
-			handleCollision(c);
+			//if ((collisionResolver.shouldSeparate(o1.getId()))) {
+			//	collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements()); // Const cast smell
+			//}
+			//if (collisionResolver.shouldSeparate(o2.getId())) {
+			//	collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
+			//}
+			//Vec2 o1N = aggre.calculateHitNormal(o1, o2);
+			//Vec2 o2N = aggre.calculateHitNormal(o2, o1);
+			//CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
+			//handleCollision(c);
 		});
 
 		for (auto& o : objects.elements()) {
 			if (rend.render(o) != 0) {
+				std::cout << error.getError();
+			}
+		}
+
+		// This wont be textures in the future, its just for the test.
+		for (auto& t : textures.elements()) {
+			if (rend.render(t, Rect::Factory::createRect(0, 0, 128, 32, Color{})) != 0) {
 				std::cout << error.getError();
 			}
 		}
@@ -86,6 +93,14 @@ ID GameEngine::add(const GameObject& obj)
 	GameObject temp = obj;
 	temp.setId(idGen.next());
 	objects.add(temp);
+	return temp.getId();
+}
+
+ID GameEngine::add(const Texture& t)
+{
+	Texture temp = t;
+	temp.setId(idGen.next());
+	textures.add(temp);
 	return temp.getId();
 }
 

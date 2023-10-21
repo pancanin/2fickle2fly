@@ -58,8 +58,11 @@ void Breakout::setKeyBindings(EventEmitter& ee)
 
   GameObject& ball = objects.get(ballId);
   ee.listen(Key::SPACE, ActionType::KEYDOWN, [&ball, this](Event e) {
-    ball.setDirection(Vec2(1.0f, 1.0f));
-    ball.setSpeed(ballSpeed);
+    if (state == GameState::READY) {
+      ball.setDirection(Vec2(1.0f, 1.0f));
+      ball.setSpeed(ballSpeed);
+      state = GameState::STARTED;
+    }
   });
 
   auto movementKeysUpHandler = [&paddle, this](Event e) {
@@ -74,7 +77,7 @@ void Breakout::onUpdate()
 {
   paddleObstacleN = Vec2();
 
-  if (state == GameState::READY) {
+  if (state == GameState::STARTED) {
     GameObject& ball = objects.get(ballId);
 
     // The ball flew off the bottom edge of the screen
@@ -88,6 +91,9 @@ void Breakout::onUpdate()
 
       if (lives == 0) {
         state = GameState::GAME_OVER;
+      }
+      else {
+        state = GameState::READY;
       }
     }
   }

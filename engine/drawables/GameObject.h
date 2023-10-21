@@ -4,16 +4,13 @@
 #include "engine/drawables/Rect.h"
 #include "engine/math/Vec2.h"
 #include "engine/math/Direction.h"
-#include "engine/misc/ID.h"
+#include "engine/misc/Identifiable.h"
 
 struct CollisionData;
 
-struct GameObject {
+struct GameObject : public Identifiable {
 	GameObject(const Rect&, float speed, Vec2 direction);
 	GameObject(const Rect&);
-
-	ID getId() const;
-	void setId(ID id);
 
 	const Rect& getRect() const;
 
@@ -27,11 +24,9 @@ struct GameObject {
 	/// </summary>
 	void setSpeed(float);
 	void setDirection(const Vec2& newDir);
-
 	float getSpeed() const;
 	Direction getDirection() const;
 private:
-	ID id;
 	Rect rect;
 	float speed; // current speed pixels per second
 	Direction direction;

@@ -24,6 +24,9 @@ add_executable(${PROJECT_NAME}
     ${DIR}/api/sdl/window/Window.h
     ${DIR}/api/sdl/window/Window.cpp
 
+    ${DIR}/api/sdl/texture/Texture.h
+    ${DIR}/api/sdl/texture/Texture.cpp
+
     ${DIR}/osplatform/Time.h
     ${DIR}/osplatform/Time.cpp
 
@@ -54,6 +57,7 @@ add_executable(${PROJECT_NAME}
     
     ${DIR}/engine/misc/ForwardIdGenerator.h
     ${DIR}/engine/misc/ID.h
+    ${DIR}/engine/misc/Identifiable.h
 
     ${DIR}/engine/physics/collisions/BoundingBox.h
     ${DIR}/engine/physics/collisions/BoundingBox.cpp

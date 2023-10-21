@@ -8,6 +8,7 @@
 #include "engine/rendering/Renderer.h"
 #include "api/sdl/window/Window.h"
 #include "api/sdl/errors/SDLError.h"
+#include "api/sdl/texture/Texture.h"
 #include "engine/misc/ForwardIdGenerator.h"
 #include "engine/drawables/GameObject.h"
 #include "engine/storage/PrimitivesStorage.h"
@@ -38,7 +39,8 @@ protected:
 	/// </summary>
 	/// <param name="obj">Temporary GameObject used for initialising the 'permanent' GameObject that will 'live' in storage.</param>
 	/// <returns>The id of the added object. This id can be used for retrieving the object.</returns>
-	ID add(const GameObject& obj);
+	ID add(const GameObject&);
+	ID add(const Texture&);
 
 	uint32_t getWindowWidth() const;
 	uint32_t getWindowHeight() const;
@@ -50,6 +52,7 @@ protected:
 
 	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.
 	PrimitivesStorage<GameObject> objects;
+	PrimitivesStorage<Texture> textures;
 private:
 	EventEmitter ee;
 	SDLInitiator sdlInit;

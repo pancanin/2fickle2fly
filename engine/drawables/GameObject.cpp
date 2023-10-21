@@ -2,20 +2,10 @@
 
 #include "engine/physics/collisions/CollisionData.h"
 
-GameObject::GameObject(const Rect& r, float v, Vec2 d): id(0), rect(r), speed(v), direction(d) {}
+GameObject::GameObject(const Rect& r, float v, Vec2 d): rect(r), speed(v), direction(d) {}
 
 GameObject::GameObject(const Rect& r) : GameObject(r, 0.0f, Vec2{})
 {
-}
-
-ID GameObject::getId() const
-{
-	return id;
-}
-
-void GameObject::setId(ID id)
-{
-	this->id = id;
 }
 
 const Rect& GameObject::getRect() const

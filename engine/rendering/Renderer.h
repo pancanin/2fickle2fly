@@ -8,6 +8,7 @@
 struct Rect;
 struct GameObject;
 class Window;
+class Texture;
 
 struct SDL_Renderer;
 
@@ -19,8 +20,10 @@ public:
 	int32_t init(Window&, const Color& clearColor);
 	int32_t render(const Rect&) const;
 	int32_t render(const GameObject&) const;
+	int32_t render(const Texture&, const Rect& canvas) const;
 	void update() const;
 	int32_t clear() const;
+	SDL_Renderer* get();
 private:
 	SDL_Renderer* _renderer;
 	SDL_Color clearColor;

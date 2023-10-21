@@ -5,6 +5,7 @@
 #include "api/sdl/window/Window.h"
 #include "engine/drawables/Rect.h"
 #include "engine/drawables/GameObject.h"
+#include "api/sdl/texture/Texture.h"
 
 Renderer::Renderer() : _renderer(nullptr), clearColor(Color{})
 {
@@ -36,6 +37,14 @@ int32_t Renderer::render(const GameObject& obj) const
   return render(obj.getRect());
 }
 
+int32_t Renderer::render(const Texture& t, const Rect& c) const
+{
+  SDL_Rect r{ c.getX(), c.getY(), c.getWidth(), c.getHeight() };
+  int32_t err = SDL_RenderSetViewport(_renderer, &r);
+  if (err != 0) return err;
+  return SDL_RenderCopy(_renderer, t.get(), NULL, &r);
+}
+
 void Renderer::update() const
 {
   SDL_RenderPresent(_renderer);
@@ -46,6 +55,11 @@ int32_t Renderer::clear() const
   int32_t rdc = SDL_SetRenderDrawColor(_renderer, clearColor.r, clearColor.g, clearColor.b, clearColor.a);
   if (rdc != 0) return rdc;
   return SDL_RenderClear(_renderer);
+}
+
+SDL_Renderer* Renderer::get()
+{
+  return _renderer;
 }
 
 Renderer::~Renderer()
