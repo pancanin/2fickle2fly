@@ -44,17 +44,17 @@ void GameEngine::start() {
 		// Collisions
 		// TODO: To get more accurate collisions, after moving the object out of other objects, go forward again in smaller steps until an object is hit.
 		// This is the first object hit.
-		detector.checkCollisions(objects.elements(), [this](const GameObject& o1, const GameObject& o2) {
-			//if ((collisionResolver.shouldSeparate(o1.getId()))) {
-			//	collisionResolver.separateObjects(const_cast<GameObject&>(o1), objects.elements()); // Const cast smell
-			//}
-			//if (collisionResolver.shouldSeparate(o2.getId())) {
-			//	collisionResolver.separateObjects(const_cast<GameObject&>(o2), objects.elements());
-			//}
-			//Vec2 o1N = aggre.calculateHitNormal(o1, o2);
-			//Vec2 o2N = aggre.calculateHitNormal(o2, o1);
-			//CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
-			//handleCollision(c);
+		detector.checkCollisions(objects.elements(), [this](GameObject& o1, GameObject& o2) {
+			if ((collisionResolver.shouldSeparate(o1.getId()))) {
+				collisionResolver.separateObjects(o1, objects.elements());
+			}
+			if (collisionResolver.shouldSeparate(o2.getId())) {
+				collisionResolver.separateObjects(o2, objects.elements());
+			}
+			Vec2 o1N = aggre.calculateHitNormal(o1, o2);
+			Vec2 o2N = aggre.calculateHitNormal(o2, o1);
+			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
+			handleCollision(c);
 		});
 
 		for (auto& o : objects.elements()) {
@@ -65,7 +65,7 @@ void GameEngine::start() {
 
 		// This wont be textures in the future, its just for the test.
 		for (auto& t : textures.elements()) {
-			if (rend.render(t, Rect::Factory::createRect(0, 0, 128, 32, Color{})) != 0) {
+			if (rend.render(t, Rect::Factory::createRect(0, 0, 128, 128, Color{})) != 0) {
 				std::cout << error.getError();
 			}
 		}
@@ -102,6 +102,17 @@ ID GameEngine::add(const Texture& t)
 	temp.setId(idGen.next());
 	textures.add(temp);
 	return temp.getId();
+}
+
+ID GameEngine::addTexture(const std::string& path)
+{
+	SDL_Texture* tex = Texture::Loader::load(rend, path);
+	if (!tex) {
+		SDLError errLog;
+		std::cout << errLog.getError() << '\n';
+		return -1;
+	}
+	return add(tex);
 }
 
 uint32_t GameEngine::getWindowWidth() const

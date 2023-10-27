@@ -38,6 +38,8 @@ void Breakout::onStart()
     ID oId = add(o);
     bricks.insert(oId);
   }
+
+  addTexture("../games/breakout/resources/pika.png");
 }
 
 void Breakout::setKeyBindings(EventEmitter& ee)

@@ -41,6 +41,7 @@ protected:
 	/// <returns>The id of the added object. This id can be used for retrieving the object.</returns>
 	ID add(const GameObject&);
 	ID add(const Texture&);
+	ID addTexture(const std::string& path);
 
 	uint32_t getWindowWidth() const;
 	uint32_t getWindowHeight() const;

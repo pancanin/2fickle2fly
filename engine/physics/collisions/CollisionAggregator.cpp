@@ -80,8 +80,8 @@ std::vector<CollisionData> CollisionAggregator::aggregateMultiCollisions(const s
 
 Vec2 CollisionAggregator::calculateHitNormal(const GameObject& o1, const GameObject& o2) const
 {
-	Rect r1 = o1.getRect();
-	Rect r2 = o2.getRect();
+	const Rect& r1 = o1.getRect();
+	const Rect& r2 = o2.getRect();
 
 	if (r1.getY() + r1.getHeight() < r2.getY()) {
 		return Vec2(0, -1);

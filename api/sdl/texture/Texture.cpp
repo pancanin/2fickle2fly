@@ -1,16 +1,12 @@
 #include "Texture.h"
 
-#include <iostream>
-
-#include "SDL_image.h"
-
 Texture::Texture(SDL_Texture* tx):
-    texture(tx),
+  texturePtr(std::shared_ptr<SDL_TexturePimpl>(new SDL_TexturePimpl{ tx }, SDL_Texture_Deleter{})),
     dim(Vec2()),
     rotation(0.0),
     flip(SDL_FLIP_NONE) {
   int w, h;
-  SDL_QueryTexture(texture, NULL, NULL, &w, &h);
+  SDL_QueryTexture(tx, NULL, NULL, &w, &h);
   dim.x = w;
   dim.y = h;
 }
@@ -20,11 +16,11 @@ Texture::Texture(SDL_Texture* tx):
 //}
 
 void Texture::activateBlend() const {
-	 SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+	 SDL_SetTextureBlendMode(texturePtr.get()->t, SDL_BLENDMODE_BLEND);
 }
 
 void Texture::setAlpha(uint8_t value) const {
-	 SDL_SetTextureAlphaMod(texture, value);
+	 SDL_SetTextureAlphaMod(texturePtr.get()->t, value);
 }
 
 void Texture::rotate(double angle) {
@@ -46,14 +42,5 @@ Vec2 Texture::getDimensions() const
 
 SDL_Texture* Texture::get() const
 {
-  return texture;
-}
-
-Texture::~Texture() {
-  if (texture != nullptr) {
-    SDL_DestroyTexture(texture);
-    texture = nullptr;
-
-    std::cout << "Texture destroyed" << std::endl;
-  }
+  return texturePtr.get()->t;
 }

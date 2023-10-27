@@ -77,6 +77,11 @@ add_executable(${PROJECT_NAME}
     ${DIR}/games/breakout/levels/LevelBuilder.cpp
 )
 
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	${CMAKE_CURRENT_SOURCE_DIR}/games/breakout/resources # This have to be done in a clever way
+	$<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
+
 # The header files in the current directory and its subdirectories are set as /I (include) compiler option
 # For visual studio projects, the added include paths are visible in C/C++ -> General -> Additional Include Directories
 target_include_directories(${PROJECT_NAME} PRIVATE ${DIR})
@@ -101,10 +106,14 @@ include_directories(
     ${DIR}/libs/win/SDL2_image-2.6.3/include
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE ${DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.lib)
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    ${DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.lib
+    ${DIR}/libs/win/SDL2_image-2.6.3/lib/x64/SDL2_image.lib
+)
 
 # Post build action to move static libraries dll files to executable's folder
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2-2.28.1/lib/x64/SDL2.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/libs/win/SDL2_image-2.6.3/lib/x64/SDL2_image.dll DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endif(WIN32)
 
 # Testing binary

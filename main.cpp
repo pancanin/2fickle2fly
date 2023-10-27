@@ -4,6 +4,8 @@
 
 #include "games/breakout/Breakout.h"
 
+#undef main
+
 int main() {
   SDLError error;
   Breakout breakout;
@@ -13,8 +15,6 @@ int main() {
     std::cout << error.getError();
     return 1;
   }
-
-  // PROEKTA NE SE BILDVA PONEJE NQMA SDL_IMAGE
   
   // Game idea: On each hit, play a bit of a song.
   breakout.start();
