@@ -40,8 +40,6 @@ int32_t Renderer::render(const GameObject& obj) const
 int32_t Renderer::render(const Texture& t, const Rect& c) const
 {
   SDL_Rect r{ c.getX(), c.getY(), c.getWidth(), c.getHeight() };
-  int32_t err = SDL_RenderSetViewport(_renderer, &r);
-  if (err != 0) return err;
   return SDL_RenderCopy(_renderer, t.get(), NULL, &r);
 }
 

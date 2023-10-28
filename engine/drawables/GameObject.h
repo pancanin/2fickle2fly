@@ -5,6 +5,7 @@
 #include "engine/math/Vec2.h"
 #include "engine/math/Direction.h"
 #include "engine/misc/Identifiable.h"
+#include "api/sdl/texture/Texture.h"
 
 struct CollisionData;
 
@@ -26,10 +27,17 @@ struct GameObject : public Identifiable {
 	void setDirection(const Vec2& newDir);
 	float getSpeed() const;
 	Direction getDirection() const;
+	void setTexture(const Texture&);
+	const Texture& getTexture() const;
+	inline bool isWithTexture() const {
+		return hasTexture;
+	}
 private:
 	Rect rect;
 	float speed; // current speed pixels per second
 	Direction direction;
+	bool hasTexture = false;
+	Texture texture;
 };
 
 struct GameObjectFactory {

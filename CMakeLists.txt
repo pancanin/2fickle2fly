@@ -75,6 +75,13 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/games/breakout/levels/LevelBuilder.h
     ${DIR}/games/breakout/levels/LevelBuilder.cpp
+
+    # UI Related classes
+    ${DIR}/ui/UITex.h
+    ${DIR}/ui/UITex.cpp
+
+    ${DIR}/ui/ProgressBar.h
+    ${DIR}/ui/ProgressBar.cpp
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

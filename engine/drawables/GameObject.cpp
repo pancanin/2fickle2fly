@@ -51,3 +51,14 @@ Direction GameObject::getDirection() const
 {
 	return direction;
 }
+
+void GameObject::setTexture(const Texture& texture)
+{
+	this->texture = texture;
+	this->hasTexture = true;
+}
+
+const Texture& GameObject::getTexture() const
+{
+	return texture;
+}

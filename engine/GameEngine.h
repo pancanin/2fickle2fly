@@ -17,6 +17,7 @@
 #include "engine/physics/collisions/CollisionDetector.h"
 #include "engine/physics/collisions/CollisionAggregator.h"
 #include "engine/physics/collisions/CollisionResolver.h"
+#include "ui/ProgressBar.h"
 
 class CollisionResolver;
 class CollisionDetector;
@@ -41,6 +42,7 @@ protected:
 	/// <returns>The id of the added object. This id can be used for retrieving the object.</returns>
 	ID add(const GameObject&);
 	ID add(const Texture&);
+	ID add(const ProgressBar&);
 	ID addTexture(const std::string& path);
 
 	uint32_t getWindowWidth() const;
@@ -54,6 +56,7 @@ protected:
 	// Do not add objects directly. Use the 'add' method of this class to add GameObjects to the game.
 	PrimitivesStorage<GameObject> objects;
 	PrimitivesStorage<Texture> textures;
+	PrimitivesStorage<ProgressBar> progressBars;
 private:
 	EventEmitter ee;
 	SDLInitiator sdlInit;

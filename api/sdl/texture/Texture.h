@@ -23,6 +23,7 @@ struct SDL_TexturePimpl {
 
 class Texture : public Identifiable {
 public:
+	Texture() = default;
 	// Calculates width and height of the texture, so textures dimensions have to match the rectangle they will be fitted in.
 	Texture(SDL_Texture*);
 

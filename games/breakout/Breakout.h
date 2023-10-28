@@ -52,6 +52,7 @@ private:
 
 	GameState state = GameState::READY;
 	uint32_t lives = 3;
+	ID livesBarId;
 
 	inline bool canMoveInDir(const Vec2& dir) const {
 		Vec2 collideF = dir + paddleObstacleN;

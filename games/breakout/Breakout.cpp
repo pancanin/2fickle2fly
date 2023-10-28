@@ -8,12 +8,13 @@
 #include "engine/physics/collisions/CollisionData.h"
 #include "engine/physics/collisions/CollisionResolver.h"
 #include "engine/physics/collisions/CollisionDetector.h"
+#include "ui/ProgressBar.h"
 
 void Breakout::onStart()
 {
   objects.init(30);
 
-  uint32_t ballDim = 10;
+  uint32_t ballDim = 16;
   initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
   initBallPos = Vec2(initialPaddlePos.x, initialPaddlePos.y - ballDim);
 	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, ballSpeed));
@@ -34,12 +35,30 @@ void Breakout::onStart()
   };
   levelBuilder.addLevel(level1);
   auto objs = levelBuilder.build(0);
+  ID bbluebrick = addTexture("../games/breakout/resources/bblue.png");
+  Texture& btex = textures.get(bbluebrick);
   for (auto& o : objs) {
     ID oId = add(o);
     bricks.insert(oId);
+    GameObject& realObj = objects.get(oId);
+    realObj.setTexture(btex);
   }
 
-  addTexture("../games/breakout/resources/pika.png");
+  ID pikaId = addTexture("../games/breakout/resources/paddle.png");
+  Texture& tex = textures.get(pikaId);
+  GameObject& paddle = objects.get(paddleId);
+  paddle.setTexture(tex);
+
+  ID ballTexId = addTexture("../games/breakout/resources/ball.png");
+  Texture& texball = textures.get(ballTexId);
+  GameObject& ball = objects.get(ballId);
+  ball.setTexture(texball);
+
+  ID heartTexId = addTexture("../games/breakout/resources/heart.png");
+  Texture heartTex = textures.get(heartTexId);
+  UITex heartuiTex(heartTex, Rect::Factory::createRect(0, 0, 32, 32, Color{}));
+  ProgressBar liveBar(heartuiTex, lives);
+  livesBarId = add(liveBar);
 }
 
 void Breakout::setKeyBindings(EventEmitter& ee)
@@ -90,6 +109,8 @@ void Breakout::onUpdate()
       ball.setPosition(initBallPos);
       GameObject& paddle = objects.get(paddleId);
       paddle.setPosition(initialPaddlePos);
+      auto& livesBar = progressBars.get(livesBarId);
+      livesBar.decrement();
 
       if (lives == 0) {
         state = GameState::GAME_OVER;

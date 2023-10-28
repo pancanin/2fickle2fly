@@ -58,15 +58,21 @@ void GameEngine::start() {
 		});
 
 		for (auto& o : objects.elements()) {
-			if (rend.render(o) != 0) {
-				std::cout << error.getError();
+			if (o.isWithTexture()) {
+				if (rend.render(o.getTexture(), o.getRect()) != 0) {
+					std::cout << error.getError();
+				}
+			}
+			else {
+				if (rend.render(o) != 0) {
+					std::cout << error.getError();
+				}
 			}
 		}
 
-		// This wont be textures in the future, its just for the test.
-		for (auto& t : textures.elements()) {
-			if (rend.render(t, Rect::Factory::createRect(0, 0, 128, 128, Color{})) != 0) {
-				std::cout << error.getError();
+		for (auto& p : progressBars.elements()) {
+			for (auto& ptex : p.elements()) {
+				rend.render(ptex.getTexture(), ptex.getRect());
 			}
 		}
 
@@ -101,6 +107,14 @@ ID GameEngine::add(const Texture& t)
 	Texture temp = t;
 	temp.setId(idGen.next());
 	textures.add(temp);
+	return temp.getId();
+}
+
+ID GameEngine::add(const ProgressBar& p)
+{
+	ProgressBar temp = p;
+	temp.setId(idGen.next());
+	progressBars.add(temp);
 	return temp.getId();
 }
 
