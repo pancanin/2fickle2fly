@@ -12,53 +12,7 @@
 
 void Breakout::onStart()
 {
-  objects.init(30);
-
-  uint32_t ballDim = 16;
-  initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
-  initBallPos = Vec2(initialPaddlePos.x, initialPaddlePos.y - ballDim);
-	ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, ballSpeed));
-  collisionResolver.addObjectForSeparation(ballId);
-
-  paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
-  collisionResolver.addObjectForSeparation(paddleId);
-
-  buildSideWalls();
-
-  char level1[BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH] = {
-    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-    {' ','1','1','1','1','1','1','1','1',' '},
-    {' ','1','1','1','1','1','1','1','1',' '},
-    {' ','1','1','1','1','1','1','1','1',' '},
-    {' ','1','1','1','1','1','1','1','1',' '},
-    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
-  };
-  levelBuilder.addLevel(level1);
-  auto objs = levelBuilder.build(0);
-  ID bbluebrick = addTexture("../games/breakout/resources/bblue.png");
-  Texture& btex = textures.get(bbluebrick);
-  for (auto& o : objs) {
-    ID oId = add(o);
-    bricks.insert(oId);
-    GameObject& realObj = objects.get(oId);
-    realObj.setTexture(btex);
-  }
-
-  ID pikaId = addTexture("../games/breakout/resources/paddle.png");
-  Texture& tex = textures.get(pikaId);
-  GameObject& paddle = objects.get(paddleId);
-  paddle.setTexture(tex);
-
-  ID ballTexId = addTexture("../games/breakout/resources/ball.png");
-  Texture& texball = textures.get(ballTexId);
-  GameObject& ball = objects.get(ballId);
-  ball.setTexture(texball);
-
-  ID heartTexId = addTexture("../games/breakout/resources/heart.png");
-  Texture heartTex = textures.get(heartTexId);
-  UITex heartuiTex(heartTex, Rect::Factory::createRect(0, 0, 32, 32, Color{}));
-  ProgressBar liveBar(heartuiTex, lives);
-  livesBarId = add(liveBar);
+  showGameScreen();
 }
 
 void Breakout::setKeyBindings(EventEmitter& ee)
@@ -183,11 +137,66 @@ void Breakout::buildSideWalls()
   Color sidewallColor{ 128, 128, 128, 255 };
 
   // Upper wall
-  add(GameObjectFactory::createImmovableObject(Vec2(0, 0), getWindowWidth(), brickHeight, sidewallColor));
+  objects.add(GameObjectFactory::createImmovableObject(Vec2(0, 0), getWindowWidth(), brickHeight, sidewallColor));
 
   // Left wall
-  add(GameObjectFactory::createImmovableObject(Vec2(0, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
+  objects.add(GameObjectFactory::createImmovableObject(Vec2(0, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
 
   // Right wall
-  add(GameObjectFactory::createImmovableObject(Vec2(getWindowWidth() - brickHeight - padding, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
+  objects.add(GameObjectFactory::createImmovableObject(Vec2(getWindowWidth() - brickHeight - padding, brickHeight + padding), brickHeight, getWindowHeight(), sidewallColor));
+}
+
+void Breakout::clearScreen()
+{
+}
+
+void Breakout::showGameScreen()
+{
+  objects.init(30);
+
+  uint32_t ballDim = 16;
+  initialPaddlePos = Vec2(getWindowWidth() / 2, getWindowHeight() - paddleHeight);
+  initBallPos = Vec2(initialPaddlePos.x, initialPaddlePos.y - ballDim);
+  ballId = add(GameObjectFactory::createObject(initBallPos, ballDim, ballDim, Color{ 20, 130, 40, 255 }, ballSpeed));
+  collisionResolver.addObjectForSeparation(ballId);
+
+  paddleId = add(GameObjectFactory::createObject(initialPaddlePos, paddleWidth, paddleHeight, Color{ 255, 0, 0, 255 }, paddleSpeed));
+  collisionResolver.addObjectForSeparation(paddleId);
+
+  buildSideWalls();
+
+  char level1[BRICKS_FIELD_HEIGHT][BRICKS_FIELD_WIDTH] = {
+    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ','1','1','1','1','1','1','1','1',' '},
+    {' ',' ',' ',' ',' ',' ',' ',' ',' ',' '},
+  };
+  levelBuilder.addLevel(level1);
+  auto objs = levelBuilder.build(0);
+  ID bbluebrick = addTexture("../games/breakout/resources/bblue.png");
+  Texture& btex = textures.get(bbluebrick);
+  for (auto& o : objs) {
+    ID brickId = add(o);
+    bricks.insert(brickId);
+    auto& brick = objects.get(brickId);
+    brick.setTexture(btex);
+  }
+
+  ID pikaId = addTexture("../games/breakout/resources/paddle.png");
+  Texture& tex = textures.get(pikaId);
+  auto& paddle = objects.get(paddleId);
+  paddle.setTexture(tex);
+
+  ID ballTexId = addTexture("../games/breakout/resources/ball.png");
+  Texture& texball = textures.get(ballTexId);
+  auto& ball = objects.get(ballId);
+  ball.setTexture(texball);
+
+  ID heartTexId = addTexture("../games/breakout/resources/heart.png");
+  Texture heartTex = textures.get(heartTexId);
+  UITex heartuiTex(heartTex, Rect::Factory::createRect(0, 0, 32, 32, Color{}));
+  ProgressBar liveBar(heartuiTex, lives);
+  livesBarId = add(liveBar);
 }

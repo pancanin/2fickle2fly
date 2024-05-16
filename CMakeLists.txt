@@ -73,6 +73,9 @@ add_executable(${PROJECT_NAME}
     ${DIR}/games/breakout/Breakout.h
     ${DIR}/games/breakout/Breakout.cpp
 
+    ${DIR}/games/tetris/tetris.h
+    ${DIR}/games/tetris/tetris.cpp
+
     ${DIR}/games/breakout/levels/LevelBuilder.h
     ${DIR}/games/breakout/levels/LevelBuilder.cpp
 
@@ -82,6 +85,9 @@ add_executable(${PROJECT_NAME}
 
     ${DIR}/ui/ProgressBar.h
     ${DIR}/ui/ProgressBar.cpp
+
+    ${DIR}/ui/Button.h
+    ${DIR}/ui/Button.cpp
 )
 
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD

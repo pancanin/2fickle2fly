@@ -50,9 +50,10 @@ struct GameObjectFactory {
 	}
 
 	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed) {
-		return GameObject(Rect::Factory::createRect(pos.x, pos.y, w, h, color), speed, Vec2());
+		return createObject(pos, w, h, color, speed, Vec2());
 	}
 
+	// This method generates an ID for the object. Make sure to call this method from within other factory methods.
 	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed, const Vec2& dir) {
 		return GameObject(Rect::Factory::createRect(pos.x, pos.y, w, h, color), speed, dir);
 	}

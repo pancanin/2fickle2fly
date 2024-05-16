@@ -31,6 +31,8 @@ private:
 	void handleCollision(const CollisionData&) override;
 	void buildSideWalls();
 
+	void clearScreen();
+	void showGameScreen();
 private:
 	LevelBuilder levelBuilder;
 	ID paddleId = -1;

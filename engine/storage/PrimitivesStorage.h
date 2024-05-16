@@ -6,6 +6,8 @@
 #include <cstdint>
 #include <stdexcept>
 
+#include "engine/misc/ForwardIdGenerator.h"
+
 template <typename T, typename ID = uint64_t>
 class PrimitivesStorage {
 public:
@@ -49,6 +51,7 @@ public:
 	}
 protected:
 	std::vector<T> data;
+	ForwardIdGenerator idGen;
 };
 
 #endif /* ENGINEV2_COMPONENTS_PRIMITIVESCOMPONENT_H_ */

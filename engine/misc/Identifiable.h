@@ -9,8 +9,8 @@ class Identifiable {
 public:
 	friend class GameEngine;
 	ID getId() const { return id; }
-private:
 	void setId(ID id) { this->id = id; }
+private:
 	ID id;
 };
 
