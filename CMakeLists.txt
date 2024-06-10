@@ -76,6 +76,9 @@ add_executable(${PROJECT_NAME}
     ${DIR}/games/tetris/tetris.h
     ${DIR}/games/tetris/tetris.cpp
 
+    ${DIR}/games/descending/descending.h
+    ${DIR}/games/descending/descending.cpp
+
     ${DIR}/games/breakout/levels/LevelBuilder.h
     ${DIR}/games/breakout/levels/LevelBuilder.cpp
 

@@ -53,6 +53,12 @@ struct GameObjectFactory {
 		return createObject(pos, w, h, color, speed, Vec2());
 	}
 
+	static GameObject createObject(const Vec2& pos, float w, float h, const Texture& tex, float speed) {
+		GameObject o = createObject(pos, w, h, Color(), speed, Vec2());
+		o.setTexture(tex);
+		return o;
+	}
+
 	// This method generates an ID for the object. Make sure to call this method from within other factory methods.
 	static GameObject createObject(const Vec2& pos, float w, float h, const Color& color, float speed, const Vec2& dir) {
 		return GameObject(Rect::Factory::createRect(pos.x, pos.y, w, h, color), speed, dir);
