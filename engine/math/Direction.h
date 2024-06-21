@@ -10,14 +10,14 @@
 /// </summary>
 class Direction {
 public:
-	Direction(const Vec2& dir) : _dir(Vec2(dir.x, -dir.y /* Negate y to adjust to the top-left origin and y increasing from top to bottom. */)) {}
+	Direction(const Vec2& dir) : _dir(Vec2(dir.x, dir.y /* Negate y to adjust to the top-left origin and y increasing from top to bottom. */)) {}
 
 	Vec2 getScreenSpace() const {
 		return _dir;
 	}
 
 	Vec2 getWorldSpace() const {
-		return Vec2(_dir.x, -_dir.y);
+		return Vec2(_dir.x, _dir.y);
 	}
 
 private:

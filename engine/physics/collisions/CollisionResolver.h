@@ -17,7 +17,7 @@ public:
 	void addObjectForSeparation(ID id);
 	bool shouldSeparate(ID id);
 private:
-	const float resolutionSpeed = 0.7f; // The speed we move game objects away from one another so they no longer intersect.
+	const float resolutionSpeed = 0.99f; // The speed we move game objects away from one another so they no longer intersect.
 	CollisionDetector detector;
 	std::unordered_set<ID> objectsToSeparate;
 };

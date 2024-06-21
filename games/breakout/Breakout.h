@@ -42,8 +42,8 @@ private:
 	uint32_t padding = 2;
 	uint32_t brickWidth = 32;
 	uint32_t brickHeight = 16;
-	float ballSpeed = 4.0f;
-	float paddleSpeed = 5.0f;
+	float ballSpeed = 5.0f;
+	float paddleSpeed = 10.0f;
 	uint32_t paddleWidth = 128;
 	uint32_t paddleHeight = 32;
 

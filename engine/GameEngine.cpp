@@ -53,6 +53,7 @@ void GameEngine::start() {
 			}
 			Vec2 o1N = aggre.calculateHitNormal(o1, o2);
 			Vec2 o2N = aggre.calculateHitNormal(o2, o1);
+			
 			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
 			handleCollision(c);
 		});

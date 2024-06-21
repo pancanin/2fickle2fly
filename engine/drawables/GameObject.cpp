@@ -16,6 +16,8 @@ const Rect& GameObject::getRect() const
 void GameObject::updatePosition()
 {
 	Vec2 currentPos(rect.getX(), rect.getY());
+	//Vec2 newIterPos = currentPos + direction.getScreenSpace();
+	//while ()
 	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
  	this->rect.updatePosition(newPos);
 }
@@ -27,7 +29,7 @@ void GameObject::setPosition(const Vec2& p)
 
 void GameObject::bounceOff(const CollisionData& c)
 {
-	this->setDirection(this->direction.getWorldSpace().reflect(c.o2N));
+	this->setDirection(this->direction.getWorldSpace().reflect(c.o2N).normalized());
 }
 
 void GameObject::setSpeed(float v)

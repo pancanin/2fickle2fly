@@ -59,7 +59,7 @@ private:
 	BoundingBox bb;
 
 	BoundingBox calcBB() {
-		return BoundingBox(Vec2(x, -y - h), Vec2(x + w, -y));
+		return BoundingBox(Vec2(x, y), Vec2(x + w, y + h));
 	}
 };
 

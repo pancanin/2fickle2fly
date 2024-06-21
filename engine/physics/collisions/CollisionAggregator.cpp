@@ -83,16 +83,17 @@ Vec2 CollisionAggregator::calculateHitNormal(const GameObject& o1, const GameObj
 	const Rect& r1 = o1.getRect();
 	const Rect& r2 = o2.getRect();
 
-	if (r1.getY() + r1.getHeight() < r2.getY()) {
-		return Vec2(0, -1);
-	}
-	else if (r1.getX() + r1.getWidth() < r2.getX()) {
-		return Vec2(1, 0);
-	}
-	else if (r2.getX() + r2.getWidth() < r1.getX()) {
+	if (r1.getX() >= r2.getX() + r2.getWidth()) {
 		return Vec2(-1, 0);
 	}
-	else {
+	else if (r1.getY() + r1.getHeight() <= r2.getY()) {
 		return Vec2(0, 1);
 	}
+	else if (r1.getX() + r1.getWidth() <= r2.getX()) {
+		return Vec2(1, 0);
+	}
+	else if (r1.getY() >= r2.getY() + r2.getHeight()) {
+		return Vec2(0, -1);
+	}
+	return Vec2();
 }
