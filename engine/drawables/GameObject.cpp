@@ -16,9 +16,13 @@ const Rect& GameObject::getRect() const
 void GameObject::updatePosition()
 {
 	Vec2 currentPos(rect.getX(), rect.getY());
-	//Vec2 newIterPos = currentPos + direction.getScreenSpace();
-	//while ()
-	Vec2 newPos = currentPos + (direction.getScreenSpace() * speed);
+	Vec2 newIterPos = direction.getScreenSpace();
+	if (!newIterPos.isZero()) {
+		while (newIterPos.length() < speed) {
+			newIterPos = newIterPos + direction.getScreenSpace();
+		}
+	}
+	Vec2 newPos = currentPos + newIterPos;
  	this->rect.updatePosition(newPos);
 }
 

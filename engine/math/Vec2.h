@@ -44,6 +44,10 @@ public:
 		return *this + -(normal * (this->dot(normal) * 2));
 	}
 
+	bool isZero() const {
+		return length() == 0.0f;
+	}
+
 	float x;
 	float y;
 };
