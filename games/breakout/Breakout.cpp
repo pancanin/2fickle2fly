@@ -59,7 +59,7 @@ void Breakout::onUpdate()
     if (ball.getRect().getY() > getWindowHeight()) {
       lives--;
       std::cout << "You are left with " << lives << " lives\n";
-      ball.setSpeed(0.0f);
+      ball.setDirection(Vec2(0.0f, 0.0f));
       ball.setPosition(initBallPos);
       GameObject& paddle = objects.get(paddleId);
       paddle.setPosition(initialPaddlePos);
