@@ -1,6 +1,7 @@
 #include "Breakout.h"
 
 #include <iostream>
+#include <math.h>
 
 #include "engine/math/Vec2.h"
 #include "engine/drawables/GameObject.h"
@@ -9,6 +10,14 @@
 #include "engine/physics/collisions/CollisionResolver.h"
 #include "engine/physics/collisions/CollisionDetector.h"
 #include "ui/ProgressBar.h"
+
+uint32_t padding = 2;
+uint32_t brickWidth = 32;
+uint32_t brickHeight = 16;
+float ballSpeed = 10.0f;
+float paddleSpeed = 10.0f;
+uint32_t paddleWidth = 128;
+uint32_t paddleHeight = 32;
 
 void Breakout::onStart()
 {
@@ -76,6 +85,18 @@ void Breakout::onUpdate()
   }
 }
 
+static Vec2 getNormalAtHit(int x) {
+  if (x < 32) {
+    return Vec2(-std::cos(M_PI / 2.2f), -std::sin(M_PI / 2.2f));
+  }
+  else if (x >= 32 && x < 96) {
+    return Vec2(0, -1);
+  }
+  else if (x >= 96) {
+    return Vec2(std::cos(M_PI / 2.2f), -std::sin(M_PI / 2.2f));
+  }
+}
+
 void Breakout::handleCollision(const CollisionData& collision)
 {
   // Handle ball collision
@@ -83,13 +104,21 @@ void Breakout::handleCollision(const CollisionData& collision)
   if (c.hasCollision) {
     GameObject& ball = objects.get(c.o1Id);
     
-    ball.bounceOff(c);
+    
 
     if (bricks.find(c.o2Id) != bricks.end()) {
       // We hit a brick, destroy it.
       bricks.erase(c.o2Id);
       objects.remove(c.o2Id);
     }
+    else if (collision.query(paddleId).hasCollision) {
+      auto& paddle = objects.get(c.o2Id);
+      float d = ball.getRect().getX() - paddle.getRect().getX();
+      Vec2 normal = getNormalAtHit(d);
+      c.o2N = normal;
+    }
+
+    ball.bounceOff(c);
   }
 
   // Handle paddle collisions
@@ -101,36 +130,11 @@ void Breakout::handleCollision(const CollisionData& collision)
       hasPaddleCollided = true;
       paddle.setSpeed(0.0);
     }
-    else {
-      // Ball collision with paddle
-      hasPaddleCollided = false;
-      GameObject& ball = objects.get(c.o2Id);
-      float d = ball.getRect().getX() - paddle.getRect().getX();
 
-      //if (ball.getRect().getY() + ball.getRect().getHeight() < paddle.getRect().getY()) {
-      //  if (d < 32) {
-      //    Vec2 rightN = Vec2(1.0f, 0.0f);
-      //    Vec2 ballDir = ball.getDirection().getWorldSpace();
-      //    float sameDir = rightN.dot(ballDir);
-      //    if (sameDir >= 0.0f) {
-      //      // The ball goes to the left, so bounce it back in the opposite direction.
-      //      Vec2 newBallDir = (-ballDir + Vec2(-0.5f, -0.5f)).normalized();
-      //      ball.setDirection(newBallDir);
-      //    }
-      //  }
-      //  else if (d >= 96) {
-      //    Vec2 leftN = Vec2(-1.0f, 0.0f);
-      //    Vec2 ballDir = ball.getDirection().getWorldSpace();
-      //    float sameDir = leftN.dot(ballDir);
-      //    if (sameDir >= 0.0f) {
-      //      // The ball goes to the left, so bounce it back in the opposite direction.
-      //      ball.setDirection(-ballDir);
-      //    }
-      //  }
-      //}
-    }
     paddleObstacleN = c.o2N;
   }
+
+  
 }
 
 void Breakout::buildSideWalls()

@@ -39,13 +39,6 @@ private:
 	ID ballId = -1;
 	Vec2 initialPaddlePos;
 	Vec2 initBallPos;
-	uint32_t padding = 2;
-	uint32_t brickWidth = 32;
-	uint32_t brickHeight = 16;
-	float ballSpeed = 5.0f;
-	float paddleSpeed = 10.0f;
-	uint32_t paddleWidth = 128;
-	uint32_t paddleHeight = 32;
 
 	bool hasPaddleCollided = false; // used for disabling user-initiated movement of the paddle while collided with a non-ball.
 	Vec2 paddleObstacleN; // The normal of the object which collided with the paddle. Need this to decide whether to move in a direction. Cleared in onUpdate.

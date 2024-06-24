@@ -41,7 +41,8 @@ public:
 	}
 
 	Vec2 reflect(const Vec2& normal) const {
-		return *this + -(normal * (this->dot(normal) * 2));
+		Vec2 n = normal.normalized();
+		return *this + -(n * (this->dot(n) * 2));
 	}
 
 	bool isZero() const {
