@@ -68,6 +68,7 @@ void Breakout::onUpdate()
     if (ball.getRect().getY() > getWindowHeight()) {
       lives--;
       std::cout << "You are left with " << lives << " lives\n";
+      ball.takeControl();
       ball.setDirection(Vec2(0.0f, 0.0f));
       ball.setPosition(initBallPos);
       GameObject& paddle = objects.get(paddleId);
@@ -85,15 +86,29 @@ void Breakout::onUpdate()
   }
 }
 
-static Vec2 getNormalAtHit(int x) {
+static Vec2 getNormalAtHit(int x, int yd, int ballSize, GameObject& ball) {
+  const bool isOnLeftSide = x <= 0 && yd >= 0;
+  const bool isOnRightSide = x >= 128 && yd >= 0;
+
+  if (isOnLeftSide) {
+    ball.makeFreeFalling();
+    return Vec2(-1, 0);
+  }
+  else if (isOnRightSide) {
+    ball.makeFreeFalling();
+    return Vec2(1, 0);
+  }
   if (x < 32) {
     return Vec2(-std::cos(M_PI / 2.2f), -std::sin(M_PI / 2.2f));
   }
   else if (x >= 32 && x < 96) {
     return Vec2(0, -1);
   }
-  else if (x >= 96) {
+  else if (x >= 96 && x < 128) {
     return Vec2(std::cos(M_PI / 2.2f), -std::sin(M_PI / 2.2f));
+  }
+  else if (x >= 128) {
+    return Vec2(1, 0);
   }
 }
 
@@ -114,7 +129,8 @@ void Breakout::handleCollision(const CollisionData& collision)
     else if (collision.query(paddleId).hasCollision) {
       auto& paddle = objects.get(c.o2Id);
       float d = ball.getRect().getX() - paddle.getRect().getX();
-      Vec2 normal = getNormalAtHit(d);
+      float yd = ball.getRect().getX() + ball.getRect().getHeight() - paddle.getRect().getX();
+      Vec2 normal = getNormalAtHit(d, yd, ball.getRect().getWidth(), ball);
       c.o2N = normal;
     }
 

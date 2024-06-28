@@ -68,3 +68,13 @@ const Texture& GameObject::getTexture() const
 {
 	return texture;
 }
+
+void GameObject::makeFreeFalling()
+{
+	this->isFreeFalling = true;
+}
+
+void GameObject::takeControl()
+{
+	this->isFreeFalling = false;
+}

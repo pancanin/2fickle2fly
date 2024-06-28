@@ -32,12 +32,18 @@ struct GameObject : public Identifiable {
 	inline bool isWithTexture() const {
 		return hasTexture;
 	}
+	// The object will no longer be able to change its direction.
+	void makeFreeFalling();
+
+	// Now the direction can be changed. It is no longer free falling.
+	void takeControl();
 private:
 	Rect rect;
 	float speed; // current speed pixels per second
 	Direction direction;
 	bool hasTexture = false;
 	Texture texture;
+	bool isFreeFalling = false;
 };
 
 struct GameObjectFactory {
