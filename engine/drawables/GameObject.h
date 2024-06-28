@@ -35,8 +35,15 @@ struct GameObject : public Identifiable {
 	// The object will no longer be able to change its direction.
 	void makeFreeFalling();
 
+	void makeDirChangeable();
+
 	// Now the direction can be changed. It is no longer free falling.
 	void takeControl();
+
+	void stop();
+	void start();
+	float prevSpeed;
+	Direction prevDir;
 private:
 	Rect rect;
 	float speed; // current speed pixels per second
@@ -44,6 +51,9 @@ private:
 	bool hasTexture = false;
 	Texture texture;
 	bool isFreeFalling = false;
+	bool unchangeableDir = false;
+
+	
 };
 
 struct GameObjectFactory {

@@ -10,6 +10,7 @@
 /// </summary>
 class Direction {
 public:
+	Direction() : _dir(Vec2()) {}
 	Direction(const Vec2& dir) : _dir(Vec2(dir.x, dir.y /* Negate y to adjust to the top-left origin and y increasing from top to bottom. */)) {}
 
 	Vec2 getScreenSpace() const {

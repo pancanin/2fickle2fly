@@ -16,7 +16,7 @@ void CollisionResolver::separateObjects(GameObject& o1, std::vector<GameObject>&
 	// While separating the objects use smaller steps
 	o1.setSpeed(resolutionSpeed);
 	// Go backwards from where it came. 'Reverse time' to unstuck the objects
-	o1.setDirection(-o1DirVec);
+	o1.setDirection(-(o1.prevDir.getWorldSpace()));
 
 	while (detector.checkCollisions(o1, objs)) {
 		o1.updatePosition();

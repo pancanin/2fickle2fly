@@ -14,8 +14,8 @@
 uint32_t padding = 2;
 uint32_t brickWidth = 32;
 uint32_t brickHeight = 16;
-float ballSpeed = 10.0f;
-float paddleSpeed = 10.0f;
+float ballSpeed = 13.0f;
+float paddleSpeed = 8.0f;
 uint32_t paddleWidth = 128;
 uint32_t paddleHeight = 32;
 
@@ -69,6 +69,7 @@ void Breakout::onUpdate()
       lives--;
       std::cout << "You are left with " << lives << " lives\n";
       ball.takeControl();
+      ball.makeDirChangeable();
       ball.setDirection(Vec2(0.0f, 0.0f));
       ball.setPosition(initBallPos);
       GameObject& paddle = objects.get(paddleId);

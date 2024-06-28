@@ -33,7 +33,12 @@ void GameObject::setPosition(const Vec2& p)
 
 void GameObject::bounceOff(const CollisionData& c)
 {
-	this->setDirection(this->direction.getWorldSpace().reflect(c.o2N).normalized());
+	//if (unchangeableDir) return;
+	this->prevDir = (this->prevDir.getWorldSpace().reflect(c.o2N).normalized());
+
+	/*if (isFreeFalling) {
+		unchangeableDir = true;
+	}*/
 }
 
 void GameObject::setSpeed(float v)
@@ -74,7 +79,26 @@ void GameObject::makeFreeFalling()
 	this->isFreeFalling = true;
 }
 
+void GameObject::makeDirChangeable()
+{
+	unchangeableDir = false;
+}
+
 void GameObject::takeControl()
 {
 	this->isFreeFalling = false;
+}
+
+void GameObject::stop()
+{
+	prevDir = direction;
+	prevSpeed = speed;
+	direction = Vec2();
+	speed = 0.0f;
+}
+
+void GameObject::start()
+{
+ 	direction = prevDir;
+	speed = prevSpeed;
 }

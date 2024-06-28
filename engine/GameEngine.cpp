@@ -41,6 +41,10 @@ void GameEngine::start() {
 		}
 		onUpdate();
 
+		// stop all objects movement.
+		for (auto& o : objects.elements()) {
+			o.stop();
+		}
 		// Collisions
 		// TODO: To get more accurate collisions, after moving the object out of other objects, go forward again in smaller steps until an object is hit.
 		// This is the first object hit.
@@ -57,6 +61,9 @@ void GameEngine::start() {
 			CollisionData c(o1.getId(), o2.getId(), o1N, o2N);
 			handleCollision(c);
 		});
+		for (auto& o : objects.elements()) {
+			o.start();
+		}
 
 		for (auto& o : objects.elements()) {
 			if (o.isWithTexture()) {
